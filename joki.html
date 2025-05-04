@@ -216,14 +216,7 @@
   const deadline = document.getElementById('deadline').value.trim();
   const noWA = '6285882218063';
 
-const pesan = `🌟 *Assalamualaikum, Syahdan!* 🌟%0A%0A` +
-              `🙏 Saya ingin order *Joki Tugas*, berikut detailnya:%0A%0A` +
-              `👤 *Nama:* ${encodeURIComponent(nama)}%0A` +
-              `📌 *Judul:* ${encodeURIComponent(judul)}%0A` +
-              `🗓️ *Deadline:* ${encodeURIComponent(deadline)}%0A` +
-              `📚 *Kategori:* ${encodeURIComponent(kategori)}%0A` +
-              `📝 *Deskripsi:* ${encodeURIComponent(deskripsi)}%0A%0A` +
-              `🔥 Mohon bantuannya ya, semoga bisa dibantu. Terima kasih! 🙏✨`;
+  const pesan = `🌟 *Assalamualaikum, Syahdan!* 🌟%0A%0A🙏 Saya ingin order *Joki Tugas*, berikut detailnya:%0A%0A👤 *Nama:* ${nama}%0A📌 *Judul:* ${judul}%0A🗓️ *Deadline:* ${deadline}%0A📚 *Kategori:* ${kategori}%0A📝 *Deskripsi:* ${deskripsi}%0A%0A🔥 Mohon bantuannya ya, semoga bisa dibantu. Terima kasih! 🙏✨`;
 
   // ✅ WA dibuka langsung saat klik (kompatibel iOS)
     window.open(`https://wa.me/${noWA}?text=${encodeURIComponent(pesan)}`, '_blank');
