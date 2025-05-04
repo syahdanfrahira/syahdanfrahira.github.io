@@ -1,0 +1,336 @@
+  <!DOCTYPE html>
+  <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Linktree Syahdan Frahira</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #f5f5f5; color: #333;
+        transition: background 0.3s, color 0.3s;
+      }
+      .loading-screen {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: white;
+        display: flex; align-items: center; justify-content: center;
+        z-index: 10000;
+        transition: opacity 0.3s;
+      }
+      .loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+      .marquee-container {
+        background: #fff;
+        padding: 0.75rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin: 1rem auto;
+        border-radius: 12px;
+        max-width: 500px;
+        overflow: hidden;
+      }
+      .marquee-text {
+        white-space: nowrap;
+        animation: marquee 18s linear infinite;
+        font-size: 1rem;
+      }
+      @keyframes marquee {
+        from { transform: translateX(100%); }
+        to { transform: translateX(-100%); }
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 2rem auto;
+        background: white;
+        padding: 2rem 1rem 3rem;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        text-align: center;
+        position: relative;
+      }
+
+      h1 { font-size: 2rem; margin-bottom: 0.3rem; }
+      p { font-size: 1rem; margin-bottom: 1rem; }
+
+      .jam-widget {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+      }
+
+      .link-button {
+        display: block;
+        margin: 0.75rem auto;
+        padding: 1rem;
+        background: linear-gradient(145deg, #1e3a8a, #3f51b5);
+        color: white;
+        border-radius: 14px;
+        width: 90%; max-width: 340px;
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+        box-shadow: 0 6px 0 #000000, 0 6px 20px rgba(0,0,0,0.2);
+        transition: all 0.2s ease-in-out;
+      }
+      .link-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 0 #172f6c, 0 10px 30px rgba(0,0,0,0.3);
+      }
+
+      .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: red;
+        color: white;
+        padding: 4px 10px;
+        font-size: 0.7rem;
+        border-radius: 999px;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.6; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      .chatbot-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #1e3a8a;
+        color: white;
+        padding: 14px;
+        border-radius: 50%;
+        font-size: 20px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        cursor: pointer;
+        z-index: 999;
+      }
+
+      .swal2-popup.responsive-popup {
+      font-size: 1rem;
+      border-radius: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .swal2-popup.responsive-popup {
+        font-size: 0.85rem;
+        padding: 0.8rem;
+      }
+
+      .swal2-title {
+        font-size: 1.1rem !important;
+      }
+
+      .swal2-html-container {
+        font-size: 0.95rem !important;
+      }
+
+      .swal2-confirm {
+        font-size: 0.9rem !important;
+        padding: 0.5rem 1.2rem !important;
+      }
+    }
+
+
+      .chatbot-panel {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        padding: 1rem;
+        width: 280px;
+        z-index: 999;
+      }
+      .chatbot-panel p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+      .chatbot-panel button {
+        background: #1e3a8a;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
+
+      img.profile {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        transition: transform 0.3s ease;
+      }
+      img.profile:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-screen" id="loadingScreen">
+      <h2>Mohon tunggu sebentar...</h2>
+    </div>
+
+    <div class="marquee-container">
+      <div class="marquee-text">
+        ✨ Selamat datang di halaman resmi Syahdan Frahira • Penulis & Web Developer • Temukan kisah dan karya terbaikku di sini ✨
+      </div>
+    </div>
+
+    <div class="container">
+      <img src="assets/img/profile.jpeg" alt="Foto Syahdan Frahira" class="profile">
+      <h1>Syahdan Frahira</h1>
+      <div class="jam-widget" id="jamSekarang"></div>
+      <p>Penulis Novel & Web Developer</p>
+
+      <a href="https://www.instagram.com/syhdnfrahira" class="link-button" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="mailto:samediadigitaltechnology@gmail.com" class="link-button">
+        <i class="fas fa-envelope"></i> Hubungi Saya
+      </a>
+      <a href="novel/novel-list.html" class="link-button">
+        <i class="fas fa-book-open"></i> Daftar Novel
+      </a>
+      <a href="joki.html" class="link-button">
+        <i class="fas fa-user-graduate"></i> Joki Tugas <span class="badge">Terpopuler</span>
+      </a>
+      <a href="toko-online/toko.html" class="link-button">
+        <i class="fas fa-store"></i> Syahdan STORE <span class="badge">New</span>
+      </a>
+      <a href="game/list-game.html" class="link-button">
+        <i class="fas fa-gamepad"></i> Mini Games <span class="badge">New</span>
+      </a>
+      <a href="game/list-game.html" class="link-button" onclick="showTPAlert(event)">
+        <i class="fas fa-coins"></i> Top Up & Layanan Digital <span class="badge">New</span>
+      </a>
+      
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Syahdan Frahira. All rights reserved.</p>
+    </footer>
+
+    <button class="chatbot-button" onclick="toggleChatbot()">
+      <i class="fas fa-comments"></i>
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <p>Hai! Mau ngobrol atau tanya sesuatu? Yuk pakai Syahdan AI!</p>
+      <button onclick="showAIAlert(event)" onclick="window.location.href='ai'">Buka Syahdan AI</button>
+    </div>
+
+    <script>
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          document.getElementById('loadingScreen').classList.add('hidden');
+          showWelcome();
+        }, 1500);
+      });
+    
+      function showWelcome() {
+      Swal.fire({
+        title: '👋 Selamat Datang!',
+        html: '<b>Terima kasih sudah mengunjungi halaman <span style="color:#1e3a8a;">Syahdan Frahira</span>.</b><br>Semoga harimu menyenangkan! ✨',
+        imageUrl: 'assets/img/welcome.png',
+        imageWidth: 80,
+        imageHeight: 80,
+        background: 'linear-gradient(135deg, #e0eafc, #cfdef3)',
+        color: '#333',
+        confirmButtonText: 'Gaskeun!',
+        confirmButtonColor: '#1e3a8a',
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        width: '90%',
+        padding: '1rem',
+        customClass: {
+          popup: 'responsive-popup'
+        },
+        didClose: () => {
+          setTimeout(showPengawasAlert, 1000);
+        }
+      });
+    }
+
+    
+      function showPengawasAlert() {
+        Swal.fire({
+          icon: 'info',
+          title: '⚠️ Pengawasan Aktif',
+          text: 'Web ini sedang diawasi oleh robot pengawas AI.',
+          confirmButtonText: 'Mengerti',
+          confirmButtonColor: '#1e3a8a',
+          background: '#fefefe',
+          color: '#333',
+          width: '90%',
+          customClass: {
+            popup: 'responsive-popup'
+          }
+        });
+      }
+    
+      function showTPAlert(event) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'info',
+          title: 'Fitur Belum Tersedia',
+          text: 'Maaf, untuk melihat fitur Top Up sedang dalam tahap pengembangan.',
+          confirmButtonText: 'Oke',
+          confirmButtonColor: '#1e3c72'
+        });
+      }
+
+      function showAIAlert(event) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'info',
+          title: 'Fitur Belum Tersedia',
+          text: 'Maaf, untuk melihat AI sedang dalam tahap pengembangan.',
+          confirmButtonText: 'Oke',
+          confirmButtonColor: '#1e3c72'
+        });
+      }
+    
+      function toggleChatbot() {
+        const panel = document.getElementById('chatbotPanel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      }
+    
+      function updateJam() {
+        const now = new Date();
+        const waktu = now.toLocaleTimeString('id-ID', {
+          timeZone: 'Asia/Jakarta',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('jamSekarang').textContent = `⏰ Jam WIB Sekarang: ${waktu}`;
+      }
+    
+      setInterval(updateJam, 1000);
+      updateJam();
+    </script>
+    
+  </body>
+  </html>
