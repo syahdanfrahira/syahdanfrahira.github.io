@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab Novel: Langit Sekolah dan Rahasia Kita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 1s ease-in-out;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 400px;
+      max-width: 100%;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-sizing: border-box;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInText 1s ease-in-out forwards;
+    }
+
+    img {
+      display: block;
+      margin: 1rem auto;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      animation: zoomIn 1s ease-out;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      text-align: justify;
+      opacity: 0;
+      animation: fadeInText 1s 0.5s ease-in-out forwards;
+    }
+
+    .link-button {
+      display: inline-block;
+      width: auto;
+      padding: 0.75rem;
+      background-color: #0077cc;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 0.5rem 0;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      animation: fadeInText 1s 1s ease-in-out forwards;
+    }
+
+    .link-button:hover {
+      background-color: #005fa3;
+      transform: scale(1.05);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    ul li {
+      margin-bottom: 1rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      margin-bottom: 0.5rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #0077cc;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+      animation: fadeInText 1s 1.5s ease-in-out forwards;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 14px;
+        padding: 0 1rem;
+      }
+
+      .link-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      textarea {
+        font-size: 0.9rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .fab-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+
+    .fab {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 20px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+    }
+
+    .fab.whatsapp {
+      background-color: #25d366;
+    }
+
+    .fab.share {
+      background-color: #0077cc;
+    }
+
+    .share-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 1rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    .share-popup a, .share-popup button {
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .share-popup p {
+      margin: 0 0 0.5rem;
+      font-weight: bold;
+    }
+
+    .copy-alert {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0077cc;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+      animation: fadeSlide 0.4s ease forwards;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translate(-50%, -10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📘 Langit Sekolah dan Rahasia Kita</h1>
+    <img src="/assets/img/wtp.png" alt="Cover Novel Langit Sekolah dan Rahasia Kita">
+
+    <p>
+      <strong>Deskripsi:</strong><br>
+      Langit Sekolah dan Rahasia Kita — Sebuah cerita tentang cinta yang singgah, bukan tinggal.<br><br>
+      Di bawah langit sekolah yang sama, kami pernah berjalan berdua. Bukan untuk selamanya, hanya cukup untuk membuatku percaya bahwa dia pernah ada.<br><br>
+      Sinta tak pernah menyangka—di balik tawa yang hangat, ada rahasia yang mampu mengubah segalanya. Dia datang seperti pagi yang tenang, lalu pergi seperti senja yang tak pernah kembali.<br><br>
+      Ini bukan kisah cinta yang sempurna. Ini tentang kehilangan, janji yang tak terucap, dan seseorang yang akhirnya hanya hidup dalam kenangan.<br><br>
+      Untukmu yang pernah mencintai dalam diam, kisah ini mungkin adalah milikmu juga.
+    </p>
+
+    <h2>📖 Daftar Bab</h2>
+    <ul>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab1.html" class="link-button">Bab 1: Langit itu Masih Sama</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab2.html" class="link-button">Bab 2: Namanya Bukan Sekedar Nama</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab3.html" class="link-button">Bab 3: Bukan Kebetulan Lagi</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab4.html" class="link-button">Bab 4: Langit Tak Pernah Bertanya Mengapa</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab5.html" class="link-button">Bab 5: Hati yang Diam, Tapi Tidak Kosong</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab6.html" class="link-button">Bab 6: Semakin Dekat, Semakin Asing</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab7.html" class="link-button">Bab 7: Hari yang Tak Ingin Aku Lupakan</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab8.html" class="link-button">Bab 8: Ada yang Tidak Kamu Katakan</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab9.html" class="link-button">Bab 9: Saat Aku Tidak Lagi Bisa Diam</a></li>
+      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab10.html" class="link-button">Bab 10: Surat yang Tidak Pernah Ingin Aku Temukan</a></li>
+    </ul>
+
+
+    <!-- konten lainnya tetap -->
+  </div>
+
+  <div id="copy-alert" class="copy-alert">Link berhasil disalin!</div>
+
+  <!-- Floating WA + Share -->
+  <div class="fab-container">
+    <a href="https://wa.me/6285882218063?text=Hai%20Syahdan,%20aku%20baru%20aja%20baca%20novelnya!" class="fab whatsapp" target="_blank" title="Chat Penulis di WhatsApp">💬</a>
+    <button class="fab share" onclick="openShare()" title="Bagikan">📤</button>
+  </div>
+
+  <div id="share-popup" class="share-popup">
+    <p>Bagikan ke:</p>
+    <a href="#" onclick="shareFacebook()">Facebook</a>
+    <a href="#" onclick="shareTwitter()">Twitter</a>
+    <button onclick="copyLink()">📋 Copy Link</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Syahdan Frahira. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function openShare() {
+      const popup = document.getElementById('share-popup');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function shareFacebook() {
+      const url = window.location.href;
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+    }
+
+    function shareTwitter() {
+      const url = window.location.href;
+      const text = "Baca novel Langit Sekolah dan Rahasia Kita! 📘";
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    }
+
+    function copyLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        const alert = document.getElementById('copy-alert');
+        alert.style.display = 'block';
+        setTimeout(() => {
+          alert.style.display = 'none';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

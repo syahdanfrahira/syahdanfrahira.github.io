@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Syahdan Store - Toko Buku Coding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --bg: #f9fafb;
+      --text: #1f2937;
+      --card: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark {
+      --bg: #111827;
+      --text: #f3f4f6;
+      --card: #1f2937;
+      --shadow: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      overscroll-behavior: none;
+      touch-action: manipulation;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      background: var(--card);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    nav button {
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+      flex: 1;
+    }
+
+    .card-content h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card-content strong {
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-content button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    #popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      z-index: 9999;
+    }
+
+    #popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #cartModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+
+    #cartContent {
+      background: var(--card);
+      padding: 2rem;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px var(--shadow);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    #cartContent h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--shadow);
+      padding-bottom: 0.5rem;
+    }
+
+    .cart-item span {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+
+    .cart-item button {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    #cartTotal {
+      margin-top: 1rem;
+      text-align: right;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    #checkoutBtn {
+      margin-top: 1.5rem;
+      width: 100%;
+      background: green;
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Syahdan Store</div>
+    <nav>
+      <button onclick="viewCart()">🧾 Lihat Keranjang</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="grid" id="productList"></div>
+  </div>
+
+  <div id="popup"></div>
+
+  <div id="cartModal">
+    <div id="cartContent">
+      <h2>🛒 Isi Keranjang</h2>
+      <hr>
+      <div id="cartItems"></div>
+      <div id="cartTotal"></div>
+      <button id="checkoutBtn" onclick="checkoutWhatsApp()">📲 Checkout via WhatsApp</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Syahdan Store</footer>
+
+  <script>
+    const products = [
+      { id: 1, title: "Buku JavaScript Dasar", price: 99000, img: "https://down-id.img.susercontent.com/file/66798b3270a565df81e7126f885d16dd" },
+      { id: 2, title: "Mastering HTML & CSS", price: 89000, img: "https://images.tokopedia.net/img/cache/500-square/VqbcmM/2024/7/22/6dd499c9-1fff-4b70-ab9d-080d4fcced2e.jpg" },
+      { id: 3, title: "Python untuk Pemula", price: 119000, img: "https://images.tokopedia.net/img/cache/700/VqbcmM/2021/2/23/e83862d6-0b79-49f3-b24d-96741d42f9f6.jpg" }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const productList = document.getElementById('productList');
+    const popup = document.getElementById('popup');
+    const cartModal = document.getElementById('cartModal');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+
+    function renderProducts() {
+      productList.innerHTML = '';
+      products.forEach(p => {
+        productList.innerHTML += `
+          <div class="card">
+            <img src="${p.img}" alt="${p.title}">
+            <div class="card-content">
+              <h3>${p.title}</h3>
+              <strong>Rp${p.price.toLocaleString()}</strong>
+              <button onclick="addToCart(${p.id})">+ Keranjang</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      showPopup(`${product.title} ditambahkan ke keranjang!`);
+    }
+
+    function showPopup(msg) {
+      popup.textContent = msg;
+      popup.classList.add('show');
+      setTimeout(() => popup.classList.remove('show'), 2500);
+    }
+
+    function viewCart() {
+      cartItems.innerHTML = '';
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Keranjang masih kosong.</p>';
+        cartTotal.textContent = '';
+      } else {
+        cart.forEach((item, i) => {
+          cartItems.innerHTML += `
+            <div class="cart-item">
+              <span>${item.title} - Rp${item.price.toLocaleString()}</span>
+              <button onclick="removeItem(${i})">Hapus</button>
+            </div>
+          `;
+        });
+        const total = cart.reduce((a, b) => a + b.price, 0);
+        cartTotal.textContent = `Total: Rp${total.toLocaleString()}`;
+      }
+      cartModal.style.display = 'flex';
+    }
+
+    function removeItem(i) {
+      cart.splice(i, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      viewCart();
+    }
+
+    function checkoutWhatsApp() {
+  const msg = cart.map(p => `- ${p.title} (Rp${p.price.toLocaleString()})`).join('\n');
+  const total = cart.reduce((a, b) => a + b.price, 0);
+  const fullMsg = `Halo Syahdan Store! Saya ingin beli:\n${msg}\nTotal: Rp${total.toLocaleString()}`;
+  const url = `https://wa.me/6285882218063?text=${encodeURIComponent(fullMsg)}`;
+  window.open(url, '_blank');
+}
+
+
+    // Tutup modal jika klik di luar
+    window.onclick = e => {
+      if (e.target === cartModal) cartModal.style.display = 'none';
+    };
+
+    // Mode gelap otomatis (jam 18-5)
+    const jam = new Date().getHours();
+    if (jam >= 18 || jam <= 5) document.body.classList.add('dark');
+
+    renderProducts();
+  </script>
+</body>
+</html>
