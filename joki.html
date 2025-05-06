@@ -226,15 +226,11 @@
 `🙏 Mohon bantuannya ya kak! Ditunggu konfirmasinya. Terima kasih! 🤝✨`;
     
   // ✅ WA dibuka langsung saat klik (kompatibel iOS)
-    window.open(`https://wa.me/${noWA}?text=${encodeURIComponent(pesan)}`, '_blank');
-
-    // ✅ Tampilkan notifikasi setelahnya
+      showSuccessNotif('Pesan berhasil dibuat! Menuju WhatsApp...');
     setTimeout(() => {
-      showSuccessNotif('Pesan berhasil dibuat! Silakan lanjut di WhatsApp.');
+      window.open(`https://wa.me/${noWA}?text=${pesan}`, '_blank');
       resetForm();
-    }, 500); // Delay singkat agar tidak "mengganggu" proses redirect
-  }
-
+    }, 1500);
 
   function kirimViaEmail() {
   if (!validateForm()) {
