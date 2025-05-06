@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Joki Tugas & Portfolio - Syahdan Frahira</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     * {
@@ -55,15 +54,6 @@
       gap: 1rem;
     }
 
-.swal2-popup.promo-popup {
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-  padding: 30px 20px;
-  backdrop-filter: blur(5px);
-}
-
-
-
     input, textarea, select {
       padding: 0.8rem;
       border-radius: 8px;
@@ -92,11 +82,6 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
-    .swal2-popup.responsive-popup {
-    font-size: 0.9rem !important;
-    border-radius: 14px;
-  }
 
     button:hover {
       background-color: #163361;
@@ -204,17 +189,17 @@
   }
 
   function kirimViaWA() {
-  if (!validateForm()) {
-    Swal.fire('Oops!', 'Isi semua data terlebih dahulu ya!', 'error');
-    return;
-  }
+    if (!validateForm()) {
+      Swal.fire('Oops!', 'Isi semua data terlebih dahulu ya!', 'error');
+      return;
+    }
 
-  const nama = document.getElementById('nama').value.trim();
-  const judul = document.getElementById('judul').value.trim();
-  const kategori = document.getElementById('kategori').value;
-  const deskripsi = document.getElementById('deskripsi').value.trim();
-  const deadline = document.getElementById('deadline').value.trim();
-  const noWA = '6285882218063';
+    const nama = document.getElementById('nama').value.trim();
+    const judul = document.getElementById('judul').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const deskripsi = document.getElementById('deskripsi').value.trim();
+    const deadline = document.getElementById('deadline').value.trim();
+    const noWA = '6285882218063';
 
     const pesan = 
 `📝 *Order Joki Tugas - Syahdan Frahira* 🧠🔥%0A%0A` +
@@ -224,79 +209,35 @@
 `📂 *Kategori:* ${kategori}%0A` +
 `📝 *Deskripsi:*%0A${deskripsi}%0A%0A` +
 `🙏 Mohon bantuannya ya kak! Ditunggu konfirmasinya. Terima kasih! 🤝✨`;
-    
-  // ✅ WA dibuka langsung saat klik (kompatibel iOS)
-      showSuccessNotif('Pesan berhasil dibuat! Menuju WhatsApp...');
+
+    showSuccessNotif('Pesan berhasil dibuat! Menuju WhatsApp...');
     setTimeout(() => {
       window.open(`https://wa.me/${noWA}?text=${pesan}`, '_blank');
       resetForm();
     }, 1500);
-
-  function kirimViaEmail() {
-  if (!validateForm()) {
-    Swal.fire('Oops!', 'Isi semua data terlebih dahulu ya!', 'error');
-    return;
   }
 
-  const nama = document.getElementById('nama').value.trim();
-  const judul = document.getElementById('judul').value.trim();
-  const kategori = document.getElementById('kategori').value;
-  const deskripsi = document.getElementById('deskripsi').value.trim();
-  const deadline = document.getElementById('deadline').value.trim();
-
-  const email = 'samediadigitaltechnology@gmail.com';
-  const subject = `Order Joki Tugas - ${nama}`;
-  const body = `Assalamualaikum Syahdan,%0A%0ASaya mau order joki tugas:%0A%0ANama: ${nama}%0AJudul Tugas: ${judul}%0AKategori: ${kategori}%0ADeskripsi: ${deskripsi}%0ADeadline: ${deadline}%0A%0AMohon informasinya. Terima kasih!`;
-
-  // ✅ Buka email client langsung
-  window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
-
-  // ✅ Notifikasi setelah membuka
-  setTimeout(() => {
-    showSuccessNotif('Pesan email siap dikirim! Silakan lanjutkan di aplikasi email kamu.');
-    resetForm();
-  }, 500);
-}
-
-         // Tampilkan popup iklan otomatis setelah 5 detik
-         function showPromo() {
-  Swal.fire({
-    title: '<span style="font-size: 24px;">🎉 Promo Spesial!</span>',
-    html: `
-      <div style="font-size: 18px; margin-top: 10px;">
-        Baca <b>novel seru</b> gratis sekarang juga di <b>Syahdan Frahira</b>!<br><br>
-        📚 Banyak cerita menarik menantimu ✨
-      </div>
-    `,
-    icon: 'info',
-    background: '#fdf6ec',
-    color: '#333',
-    iconColor: '#ff9800',
-    confirmButtonText: '📖 Baca Sekarang',
-    cancelButtonText: '❌ Nanti',
-    showCancelButton: true,
-    confirmButtonColor: '#ff9800',
-    cancelButtonColor: '#ccc',
-    customClass: {
-      popup: 'promo-popup animate__animated animate__fadeInUp'
-    },
-    showClass: {
-      popup: 'animate__animated animate__fadeInUp'
-    },
-    hideClass: {
-      popup: 'animate__animated animate__fadeOutDown'
+  function kirimViaEmail() {
+    if (!validateForm()) {
+      Swal.fire('Oops!', 'Isi semua data terlebih dahulu ya!', 'error');
+      return;
     }
-  }).then((result) => {
-    if (result.isConfirmed) {
-      window.location.href = 'https://syahdanfrahira.github.io/novel/novel-list.html';
-    }
-  });
-}
 
-    // ✅ Panggil popup promo setelah delay 5 detik
-    setTimeout(showPromo, 2000);
+    const nama = document.getElementById('nama').value.trim();
+    const judul = document.getElementById('judul').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const deskripsi = document.getElementById('deskripsi').value.trim();
+    const deadline = document.getElementById('deadline').value.trim();
+    const email = 'samediadigitaltechnology@gmail.com';
+    const subject = `Order Joki Tugas - ${nama}`;
+    const body = `Assalamualaikum Syahdan,%0A%0ASaya mau order joki tugas:%0A%0ANama: ${nama}%0AJudul Tugas: ${judul}%0AKategori: ${kategori}%0ADeskripsi: ${deskripsi}%0ADeadline: ${deadline}%0A%0AMohon informasinya. Terima kasih!`;
 
-
+    showSuccessNotif('Pesan email siap dikirim!');
+    setTimeout(() => {
+      window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+      resetForm();
+    }, 1500);
+  }
 </script>
 </body>
 </html>
