@@ -3,317 +3,615 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tic Tac Toe AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Tic Tac Toe Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.3s, color 0.3s;
-    }
     :root {
-      --bg: #f9f9f9;
-      --text: #111;
-      --primary: #4caf50;
-      --accent: #2196f3;
-      --tile-bg: #fff;
-      --win-bg: #d4edda;
+      --bg-primary: #1a1a2e;
+      --bg-secondary: #16213e;
+      --text-primary: #ffffff;
+      --text-secondary: #b8c2cc;
+      --accent-primary: #00e1d3;
+      --accent-secondary: #ff7e5f;
+      --tile-bg: rgba(255, 255, 255, 0.08);
+      --win-bg: rgba(0, 225, 211, 0.2);
+      --shadow-dark: 0 10px 20px rgba(0,0,0,0.3);
+      --shadow-light: 0 5px 15px rgba(255,255,255,0.05);
+      --border-radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    [data-theme="dark"] {
-      --bg: #111;
-      --text: #f9f9f9;
-      --primary: #81c784;
-      --accent: #64b5f6;
-      --tile-bg: #222;
-      --win-bg: #2e7d32;
+
+    [data-theme="light"] {
+      --bg-primary: #f8f9fa;
+      --bg-secondary: #e9ecef;
+      --text-primary: #212529;
+      --text-secondary: #495057;
+      --tile-bg: rgba(255, 255, 255, 0.9);
+      --win-bg: rgba(40, 167, 69, 0.2);
     }
+
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: var(--transition);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=3000&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0.05;
+      z-index: -1;
+    }
+
     .container {
-      max-width: 400px;
-      margin: auto;
-      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
       text-align: center;
     }
-    .loading {
+
+    /* Loading Screen Premium */
+    #loading {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
+      background: var(--bg-primary);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      background-color: var(--bg);
+      justify-content: center;
       z-index: 9999;
-      font-size: 1.5rem;
+      transition: opacity 0.8s ease;
     }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .loader::before,
+    .loader::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .loader::before {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, var(--accent-primary) 50%, transparent 100%);
+      animation: spin 1.5s linear infinite;
+    }
+
+    .loader::after {
+      width: 80%;
+      height: 80%;
+      background: var(--bg-primary);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .loading-text {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .loading-subtext {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--accent-primary);
+      border-radius: 3px;
+    }
+
+    /* Game Board */
     .board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 20px auto;
+      gap: 15px;
+      margin: 2rem auto;
     }
+
     .cell {
+      aspect-ratio: 1/1;
       background: var(--tile-bg);
-      border-radius: 12px;
-      font-size: 2rem;
-      padding: 20px;
+      border-radius: var(--border-radius);
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: background 0.3s, transform 0.2s;
+      box-shadow: var(--shadow-dark);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    .cell:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
     .cell.win {
       background-color: var(--win-bg);
-      animation: bounce 0.5s infinite alternate;
+      animation: pulse 0.8s infinite alternate;
+      position: relative;
+      overflow: hidden;
     }
-    @keyframes bounce {
+
+    .cell.win::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0,225,211,0.3) 0%, transparent 70%);
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes pulse {
       0% { transform: scale(1); }
       100% { transform: scale(1.05); }
     }
-    .controls {
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #1976d2;
-    }
-    .typing-title {
-        overflow: hidden;
-        white-space: nowrap;
-        border-right: 2px solid;
-        width: 0;
-        animation: typing 2s steps(20), blink 0.5s step-end infinite alternate;
-    }
-    @keyframes typing {
-        from { width: 0 }
-        to { width: 14ch }
-    }
-    @keyframes blink {
-        50% { border-color: transparent }
-    }
-    .theme-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: none;
-      font-size: 1.5rem;
-      border: none;
-      cursor: pointer;
-      color: var(--text);
-    }
-        /* Loading spinner */
-        #loading {
-        position: fixed;
-        inset: 0;
-        background: var(--bg);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: all 0.5s ease;
-        }
 
-        .loader {
-        width: 60px;
-        height: 60px;
-        border: 6px solid #ddd;
-        border-top: 6px solid #3498db;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 15px;
-        }
-
-        .loading-text {
-        font-size: 1.2rem;
-        color: var(--text);
-        animation: blink 1.2s infinite;
-        }
-
-        @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-        }
-
-        @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-        }
-
-    .clock {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      font-size: 1rem;
-      font-weight: bold;
-      background: rgba(0,0,0,0.05);
-      padding: 5px 10px;
-      border-radius: 8px;
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-    .scoreboard {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    select {
-      margin-top: 10px;
-      padding: 8px;
-      border-radius: 6px;
-    }
-    .player-turn {
-      margin-top: 15px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
+
+    /* Kontrol Game */
     .top-controls {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
-      margin-top: 10px;
+    }
+
+    select, button {
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    select {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-primary);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .info-btn {
+      background: linear-gradient(135deg, var(--accent-secondary) 0%, #ff5e7d 100%);
+      color: white;
+      box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
+    }
+
+    .info-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 126, 95, 0.6);
+    }
+
+    .reset-btn {
+      background: linear-gradient(135deg, var(--accent-primary) 0%, #00b4a9 100%);
+      color: #111;
+      box-shadow: 0 5px 15px rgba(0, 225, 211, 0.4);
+    }
+
+    .reset-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 225, 211, 0.6);
+    }
+
+    /* Info Pemain */
+    .player-turn {
+      margin: 1.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      position: relative;
+      display: inline-block;
+    }
+
+    .player-turn::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .player-turn.active::after {
+      transform: scaleX(1);
+    }
+
+    /* Scoreboard */
+    .scoreboard {
+      display: flex;
+      justify-content: space-around;
+      margin: 2rem 0;
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-light);
+    }
+
+    .score-item {
+      text-align: center;
+    }
+
+    .score-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    /* Kontrol Tema & Jam */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      box-shadow: var(--shadow-dark);
+      z-index: 100;
+    }
+
+    .clock {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      padding: 0.8rem 1.2rem;
+      border-radius: 50px;
+      box-shadow: var(--shadow-light);
+    }
+
+    /* Animasi */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsif */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .cell {
+        font-size: 2.5rem;
+      }
+      
+      .top-controls {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
-    <div id="loading">
-        <div class="loader"></div>
-        <div class="loading-text">Memuat...</div>
-      </div>
-        <div class="clock" id="clock">00:00:00</div>
+  <div id="loading">
+    <div class="loader"></div>
+    <div class="loading-text">Memuat Pengalaman Premium</div>
+    <div class="loading-subtext">Harap tunggu sebentar...</div>
+  </div>
+
+  <div class="clock" id="clock">00:00:00</div>
   <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
   <div class="container" id="gameContainer" style="display:none">
-    <h1><span class="typing-title">Tic Tac Toe AI</span></h1>
+    <div class="header">
+      <h1>Tic Tac Toe Premium</h1>
+    </div>
+
     <div class="top-controls">
       <select id="difficulty">
         <option value="easy">Mudah</option>
         <option value="medium">Menengah</option>
         <option value="hard">Sulit</option>
       </select>
-      <button onclick="showHowToPlay()">ℹ️</button>
+      <button class="info-btn" onclick="showHowToPlay()">
+        <i class="fas fa-info-circle"></i> Panduan
+      </button>
     </div>
+
     <div class="player-turn" id="turnInfo">Giliran Kamu</div>
+    
     <div class="board" id="board"></div>
+    
     <div class="scoreboard">
-      <div>Menang: <span id="wins">0</span></div>
-      <div>Kalah: <span id="losses">0</span></div>
-      <div>Seri: <span id="draws">0</span></div>
+      <div class="score-item">
+        <div class="score-label">Menang</div>
+        <div class="score-value" id="wins">0</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Kalah</div>
+        <div class="score-value" id="losses">0</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Seri</div>
+        <div class="score-value" id="draws">0</div>
+      </div>
     </div>
-    <div class="controls">
-      <button onclick="resetGame()">Reset</button>
-    </div>
+
+    <button class="reset-btn" onclick="resetGame()">
+      <i class="fas fa-sync-alt"></i> Mulai Ulang
+    </button>
   </div>
-  <audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
-  <audio id="winSound" src="https://www.fesliyanstudios.com/play-mp3/5000"></audio>
-  <audio id="drawSound" src="https://www.fesliyanstudios.com/play-mp3/700"></audio>
+
+  <!-- Efek Suara -->
+  <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"></audio>
+  <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+  <audio id="loseSound" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-arcade-lose-2027.mp3"></audio>
+  <audio id="drawSound" src="https://assets.mixkit.co/sfx/preview/mixkit-neutral-interface-hover-3181.mp3"></audio>
+  <audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-quick-jump-arcade-game-239.mp3"></audio>
+
   <script>
+    // Elemen DOM
     const boardEl = document.getElementById("board");
     const winsEl = document.getElementById("wins");
     const lossesEl = document.getElementById("losses");
     const drawsEl = document.getElementById("draws");
+    const turnInfoEl = document.getElementById("turnInfo");
+    const difficultyEl = document.getElementById("difficulty");
+    
+    // Efek suara
     const clickSound = document.getElementById("clickSound");
     const winSound = document.getElementById("winSound");
+    const loseSound = document.getElementById("loseSound");
     const drawSound = document.getElementById("drawSound");
-    const difficulty = document.getElementById("difficulty");
-  
+    const hoverSound = document.getElementById("hoverSound");
+
+    // State game
     let board = ["", "", "", "", "", "", "", "", ""];
     let gameOver = false;
     let wins = 0, losses = 0, draws = 0;
-  
+    let isPlayerTurn = true;
+
+    // Inisialisasi game
+    function initGame() {
+      renderBoard();
+      updateTurnInfo();
+      
+      // Tambahkan efek hover ke semua sel
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('mouseenter', () => {
+          if (!gameOver && isPlayerTurn && cell.textContent === "") {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => console.log("Autoplay dicegah:", e));
+          }
+        });
+      });
+    }
+
+    // Render papan permainan
     function renderBoard() {
       boardEl.innerHTML = "";
       board.forEach((cell, i) => {
         const div = document.createElement("div");
         div.className = "cell";
         div.textContent = cell;
+        
+        // Tambahkan ikon khusus untuk X dan O
+        if (cell === "X") {
+          div.innerHTML = '<i class="fas fa-times" style="color: var(--accent-primary);"></i>';
+        } else if (cell === "O") {
+          div.innerHTML = '<i class="fas fa-circle-notch" style="color: var(--accent-secondary);"></i>';
+        }
+        
         div.onclick = () => handleClick(i);
         boardEl.appendChild(div);
       });
     }
-  
+
+    // Handle klik pemain
     function handleClick(i) {
-      if (board[i] || gameOver) return;
+      if (board[i] || gameOver || !isPlayerTurn) return;
+      
       board[i] = "X";
+      clickSound.currentTime = 0;
       clickSound.play();
       renderBoard();
+      
       const winner = checkWin();
       if (winner) return endGame(winner);
       if (board.every(cell => cell)) return endGame("draw");
-      setTimeout(aiMove, 300);
+      
+      isPlayerTurn = false;
+      updateTurnInfo();
+      
+      setTimeout(aiMove, 500);
     }
-  
+
+    // Gerakan AI
     function aiMove() {
       if (gameOver) return;
+      
       const move = getAIMove();
       board[move] = "O";
+      clickSound.currentTime = 0;
       clickSound.play();
       renderBoard();
+      
       const winner = checkWin();
       if (winner) return endGame(winner);
       if (board.every(cell => cell)) return endGame("draw");
+      
+      isPlayerTurn = true;
+      updateTurnInfo();
     }
-  
+
+    // Logika AI berdasarkan tingkat kesulitan
     function getAIMove() {
       const empty = board.map((val, i) => val === "" ? i : null).filter(i => i !== null);
-      if (difficulty.value === "easy") return empty[Math.floor(Math.random() * empty.length)];
-      if (difficulty.value === "medium") return blockOrRandom(empty);
-      return minimax(board, "O").index;
+      
+      switch(difficultyEl.value) {
+        case "easy":
+          return empty[Math.floor(Math.random() * empty.length)];
+          
+        case "medium":
+          // 50% chance untuk bergerak cerdas, 50% random
+          return Math.random() > 0.5 ? blockOrRandom(empty) : empty[Math.floor(Math.random() * empty.length)];
+          
+        case "hard":
+        default:
+          return minimax(board, "O").index;
+      }
     }
-  
+
+    // AI mencoba memblokir atau menang
     function blockOrRandom(empty) {
+      // Coba menang
       for (let i of empty) {
         board[i] = "O";
-        if (checkWin() === "O") return i;
+        if (checkWin() === "O") {
+          board[i] = "";
+          return i;
+        }
         board[i] = "";
       }
+      
+      // Coba blokir
       for (let i of empty) {
         board[i] = "X";
-        if (checkWin() === "X") { board[i] = ""; return i; }
+        if (checkWin() === "X") {
+          board[i] = "";
+          return i;
+        }
         board[i] = "";
       }
+      
+      // Gerakan random
       return empty[Math.floor(Math.random() * empty.length)];
     }
-  
+
+    // Algoritma Minimax untuk AI sulit
     function minimax(newBoard, player) {
       const availSpots = newBoard.map((val, i) => val === "" ? i : null).filter(i => i !== null);
+      
       if (checkWin(newBoard) === "X") return { score: -10 };
       if (checkWin(newBoard) === "O") return { score: 10 };
       if (availSpots.length === 0) return { score: 0 };
-  
+      
       const moves = [];
       for (let i of availSpots) {
         const move = { index: i };
         newBoard[i] = player;
+        
         const result = minimax(newBoard, player === "O" ? "X" : "O");
         move.score = result.score;
+        
         newBoard[i] = "";
         moves.push(move);
       }
+      
       return player === "O"
         ? moves.reduce((best, m) => m.score > best.score ? m : best)
         : moves.reduce((best, m) => m.score < best.score ? m : best);
     }
-  
+
+    // Cek pemenang
     function checkWin(customBoard = board) {
       const wins = [
-        [0,1,2],[3,4,5],[6,7,8],
-        [0,3,6],[1,4,7],[2,5,8],
-        [0,4,8],[2,4,6]
+        [0,1,2],[3,4,5],[6,7,8], // baris
+        [0,3,6],[1,4,7],[2,5,8], // kolom
+        [0,4,8],[2,4,6] // diagonal
       ];
+      
       for (let combo of wins) {
         const [a,b,c] = combo;
         if (customBoard[a] && customBoard[a] === customBoard[b] && customBoard[a] === customBoard[c]) {
           if (customBoard === board) {
+            // Tambahkan efek kemenangan
             document.querySelectorAll('.cell')[a].classList.add("win");
             document.querySelectorAll('.cell')[b].classList.add("win");
             document.querySelectorAll('.cell')[c].classList.add("win");
@@ -323,33 +621,80 @@
       }
       return null;
     }
-  
+
+    // Akhiri permainan
     function endGame(winner) {
       gameOver = true;
+      
       if (winner === "draw") {
-        draws++; drawSound.play();
+        draws++;
+        drawsEl.textContent = draws;
+        drawSound.currentTime = 0;
+        drawSound.play();
+        
+        Swal.fire({
+          title: 'Seri!',
+          text: 'Permainan berakhir imbang',
+          icon: 'info',
+          confirmButtonText: 'Main Lagi'
+        }).then(() => resetGame());
+        
       } else if (winner === "X") {
-        wins++; winSound.play();
+        wins++;
+        winsEl.textContent = wins;
+        winSound.currentTime = 0;
+        winSound.play();
+        
+        Swal.fire({
+          title: 'Kamu Menang!',
+          text: 'Selamat! Kamu mengalahkan AI',
+          icon: 'success',
+          confirmButtonText: 'Lanjutkan'
+        }).then(() => resetGame());
+        
       } else {
-        losses++; drawSound.play();
+        losses++;
+        lossesEl.textContent = losses;
+        loseSound.currentTime = 0;
+        loseSound.play();
+        
+        Swal.fire({
+          title: 'Kamu Kalah!',
+          text: 'AI lebih pintar kali ini. Coba lagi!',
+          icon: 'error',
+          confirmButtonText: 'Coba Lagi'
+        }).then(() => resetGame());
       }
-      winsEl.textContent = wins;
-      lossesEl.textContent = losses;
-      drawsEl.textContent = draws;
     }
-  
+
+    // Reset permainan
     function resetGame() {
       board = ["", "", "", "", "", "", "", "", ""];
       gameOver = false;
+      isPlayerTurn = true;
       renderBoard();
+      updateTurnInfo();
     }
-  
+
+    // Update info giliran
+    function updateTurnInfo() {
+      if (gameOver) {
+        turnInfoEl.textContent = "Permainan Selesai";
+        turnInfoEl.classList.remove("active");
+      } else {
+        turnInfoEl.textContent = isPlayerTurn ? "Giliran Kamu" : "Giliran AI";
+        turnInfoEl.classList.toggle("active", isPlayerTurn);
+      }
+    }
+
+    // Toggle tema gelap/terang
     function toggleTheme() {
-      const theme = document.body.getAttribute("data-theme") === "dark" ? "" : "dark";
+      const theme = document.body.getAttribute("data-theme") === "light" ? "" : "light";
       document.body.setAttribute("data-theme", theme);
-      document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.querySelector('.theme-toggle').innerHTML = theme === 'light' ? '🌙' : '☀️';
     }
-  
+
+    // Update jam
     function updateClock() {
       const now = new Date();
       const h = now.getHours().toString().padStart(2, '0');
@@ -357,49 +702,73 @@
       const s = now.getSeconds().toString().padStart(2, '0');
       document.getElementById("clock").textContent = `${h}:${m}:${s}`;
     }
-  
+
+    // Tampilkan panduan bermain
     function showHowToPlay() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+      
       Swal.fire({
-        title: 'Cara Main',
-        html: 'Klik kotak untuk mengisi dengan <b>X</b>. Komputer akan membalas dengan <b>O</b>. Menangkan permainan dengan menyusun 3 kotak berurutan.',
+        title: 'Cara Bermain',
+        html: `
+          <div style="text-align: left; line-height: 1.6;">
+            <p><b>Tujuan:</b> Susun 3 simbol berurutan (horizontal, vertikal, atau diagonal)</p>
+            <p><b>Kamu:</b> Gunakan simbol <i class="fas fa-times" style="color: var(--accent-primary);"></i> (X)</p>
+            <p><b>AI:</b> Menggunakan simbol <i class="fas fa-circle-notch" style="color: var(--accent-secondary);"></i> (O)</p>
+            <hr style="margin: 1rem 0; border-color: rgba(255,255,255,0.1);">
+            <p><b>Tingkat Kesulitan:</b></p>
+            <ul style="margin-left: 1.5rem;">
+              <li><b>Mudah:</b> AI bergerak acak</li>
+              <li><b>Menengah:</b> AI mencoba blokir/menang</li>
+              <li><b>Sulit:</b> AI hampir tak terkalahkan</li>
+            </ul>
+          </div>
+        `,
         icon: 'info',
-        confirmButtonText: 'Siap!'
+        confirmButtonText: 'Mengerti',
+        background: 'var(--bg-secondary)',
+        color: 'var(--text-primary)'
       });
     }
-  
-    // PERBAIKAN UTAMA DI SINI
+
+    // Inisialisasi saat halaman dimuat
     window.onload = () => {
+      // Set tema berdasarkan waktu
       const hour = new Date().getHours();
       if (hour >= 18 || hour <= 6) {
-        document.body.setAttribute("data-theme", "dark");
-        document.querySelector('.theme-toggle').textContent = '☀️';
+        document.body.setAttribute("data-theme", "");
+      } else {
+        document.body.setAttribute("data-theme", "light");
+        document.querySelector('.theme-toggle').innerHTML = '🌙';
       }
-  
-      // Tampilkan loading dulu
+      
+      // Tampilkan loading screen
       setTimeout(() => {
-        document.getElementById("loading").style.display = "none";
-  
-        // Lalu tampilkan Welcome SweetAlert
-        Swal.fire({
-          title: 'Selamat Datang!',
-          text: 'Bersiaplah bermain melawan AI dalam Tic Tac Toe!',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        });
-  
-        // Setelah welcome selesai, tampilkan game
+        document.getElementById("loading").style.opacity = "0";
+        
         setTimeout(() => {
+          document.getElementById("loading").style.display = "none";
           document.getElementById("gameContainer").style.display = "block";
-          renderBoard();
-        }, 2000); // jeda sesuai durasi SweetAlert
-      }, 1000); // durasi loading
-  
-      // Mulai jam real-time
+          
+          // Tampilkan welcome message
+          Swal.fire({
+            title: 'Selamat Datang!',
+            text: 'Bersiaplah bermain Tic Tac Toe Premium melawan AI!',
+            icon: 'success',
+            confirmButtonText: 'Mulai Bermain',
+            background: 'var(--bg-secondary)',
+            color: 'var(--text-primary)'
+          }).then(() => {
+            // Inisialisasi game setelah welcome message ditutup
+            initGame();
+          });
+        }, 800);
+      }, 1500);
+      
+      // Mulai jam
       setInterval(updateClock, 1000);
       updateClock();
     };
   </script>
-  
 </body>
 </html>
