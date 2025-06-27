@@ -1,280 +1,521 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bab Novel: Langit Sekolah dan Rahasia Kita</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f9f9f9;
+    :root {
+      --primary: #7c3aed;
+      --primary-dark: #6d28d9;
+      --secondary: #a855f7;
+      --accent: #ec4899;
+      --bg: #f5f3ff;
+      --text: #1e1b4b;
+      --text-light: #64748b;
+      --card: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --primary: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --secondary: #a855f7;
+      --accent: #ec4899;
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --text-light: #94a3b8;
+      --card: #1e293b;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      animation: fadeIn 1s ease-in-out;
-      overflow-x: hidden;
     }
 
-    .container {
-      width: 400px;
-      max-width: 100%;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: #ffffff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      box-sizing: border-box;
-      animation: slideUp 0.6s ease-out;
+    html {
+      scroll-behavior: smooth;
     }
 
-    h1, h2 {
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      transition: var(--transition);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2rem 1rem;
       text-align: center;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeInText 1s ease-in-out forwards;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
     }
 
-    img {
-      display: block;
-      margin: 1rem auto;
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+      background-size: cover;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+    }
+
+    /* Novel Cover */
+    .novel-cover {
       width: 100%;
       max-width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      animation: zoomIn 1s ease-out;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      display: block;
+      margin: 0 auto 2rem;
+      transition: var(--transition);
     }
 
-    p {
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .novel-cover:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Novel Content */
+    .novel-content {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
+
+    .novel-content p {
+      margin-bottom: 1.5rem;
       text-align: justify;
-      opacity: 0;
-      animation: fadeInText 1s 0.5s ease-in-out forwards;
     }
 
-    .link-button {
-      display: inline-block;
-      width: auto;
-      padding: 0.75rem;
-      background-color: #0077cc;
-      color: white;
-      text-decoration: none;
-      text-align: center;
-      border-radius: 8px;
+    .chapter-title {
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .chapter-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    /* Chapter Navigation */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .chapter-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius-md);
       font-weight: 600;
-      margin: 0.5rem 0;
-      transition: transform 0.3s ease;
-      opacity: 0;
-      animation: fadeInText 1s 1s ease-in-out forwards;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .link-button:hover {
-      background-color: #005fa3;
-      transform: scale(1.05);
+    .btn-primary {
+      background: var(--primary);
+      color: white;
     }
 
-    ul {
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(124, 58, 237, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Chapter List */
+    .chapter-list {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .chapter-list h2 {
+      font-size: clamp(1.3rem, 4vw, 1.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .chapter-list ul {
       list-style: none;
       padding: 0;
-      margin: 1rem 0;
     }
 
-    ul li {
-      margin-bottom: 1rem;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-      box-sizing: border-box;
+    .chapter-list li {
       margin-bottom: 0.5rem;
-      transition: border-color 0.3s ease;
     }
 
-    input:focus, textarea:focus {
-      border-color: #0077cc;
+    .chapter-list a {
+      display: block;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      text-decoration: none;
+      transition: var(--transition);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #666;
-      animation: fadeInText 1s 1.5s ease-in-out forwards;
+    .chapter-list a:hover {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--primary);
+      transform: translateX(5px);
     }
 
-    @media (max-width: 480px) {
-      body {
-        font-size: 14px;
-        padding: 0 1rem;
-      }
-
-      .link-button {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-      }
-
-      textarea {
-        font-size: 0.9rem;
-      }
+    .current-chapter {
+      background: rgba(124, 58, 237, 0.2);
+      border-left: 3px solid var(--primary);
+      font-weight: 600;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes fadeInText {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      0% { transform: translateY(50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes zoomIn {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
+    /* Floating Action Buttons */
     .fab-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      z-index: 999;
+      gap: 1rem;
+      z-index: 100;
     }
 
     .fab {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      font-size: 20px;
       color: white;
       border: none;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
       text-decoration: none;
+      font-size: 1.2rem;
     }
 
     .fab:hover {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(10deg);
     }
 
-    .fab.whatsapp {
-      background-color: #25d366;
+    .fab-whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
     }
 
-    .fab.share {
-      background-color: #0077cc;
+    .fab-share {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
     }
 
+    .fab-theme {
+      background: linear-gradient(135deg, #64748b, #475569);
+    }
+
+    /* Share Popup */
     .share-popup {
       position: fixed;
-      bottom: 90px;
+      bottom: 100px;
       right: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      padding: 1rem;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 1.5rem;
       display: none;
       flex-direction: column;
-      gap: 0.5rem;
-      z-index: 1000;
+      gap: 1rem;
+      z-index: 100;
+      width: 250px;
+      transform: translateY(20px);
+      transition: var(--transition);
     }
 
-    .share-popup a, .share-popup button {
-      text-decoration: none;
-      color: #0077cc;
-      font-weight: 600;
-      background: none;
-      border: none;
+    .share-popup.show {
+      display: flex;
+      transform: translateY(0);
+    }
+
+    .share-popup h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .share-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 0.9rem;
+      transition: var(--transition);
     }
 
-    .share-popup p {
-      margin: 0 0 0.5rem;
-      font-weight: bold;
+    .share-option:hover {
+      background: rgba(124, 58, 237, 0.1);
     }
 
-    .copy-alert {
+    .share-option i {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .facebook i {
+      background: #1877F2;
+    }
+
+    .twitter i {
+      background: #1DA1F2;
+    }
+
+    .copy-link i {
+      background: var(--primary);
+    }
+
+    /* Notification */
+    .notification {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: #0077cc;
+      background: var(--primary);
       color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      z-index: 2000;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
       display: none;
-      animation: fadeSlide 0.4s ease forwards;
+      align-items: center;
+      gap: 0.8rem;
     }
 
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translate(-50%, -10px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
+    .notification.show {
+      display: flex;
+      animation: fadeInOut 2.5s ease forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -20px); }
+      15% { opacity: 1; transform: translate(-50%, 0); }
+      85% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -20px); }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card);
+      color: var(--text);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg) scale(1.1);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .novel-content, .chapter-list {
+        padding: 1.5rem;
+      }
+
+      .chapter-nav {
+        flex-direction: column;
+      }
+
+      .chapter-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .novel-content, .chapter-list {
+        padding: 1.25rem;
+      }
+
+      .fab {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+      }
+
+      .share-popup {
+        width: 220px;
+        right: 10px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1>Langit Sekolah dan Rahasia Kita</h1>
+      <p>Karya Syahdan Frahira</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
   <div class="container">
-    <h1>📘 Langit Sekolah dan Rahasia Kita</h1>
-    <img src="/assets/img/wtp.png" alt="Cover Novel Langit Sekolah dan Rahasia Kita">
-
-    <p>
-      <strong>Deskripsi:</strong><br>
-      Langit Sekolah dan Rahasia Kita — Sebuah cerita tentang cinta yang singgah, bukan tinggal.<br><br>
-      Di bawah langit sekolah yang sama, kami pernah berjalan berdua. Bukan untuk selamanya, hanya cukup untuk membuatku percaya bahwa dia pernah ada.<br><br>
-      Sinta tak pernah menyangka—di balik tawa yang hangat, ada rahasia yang mampu mengubah segalanya. Dia datang seperti pagi yang tenang, lalu pergi seperti senja yang tak pernah kembali.<br><br>
-      Ini bukan kisah cinta yang sempurna. Ini tentang kehilangan, janji yang tak terucap, dan seseorang yang akhirnya hanya hidup dalam kenangan.<br><br>
-      Untukmu yang pernah mencintai dalam diam, kisah ini mungkin adalah milikmu juga.
-    </p>
-
-    <h2>📖 Daftar Bab</h2>
-    <ul>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab1.html" class="link-button">Bab 1: Langit itu Masih Sama</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab2.html" class="link-button">Bab 2: Namanya Bukan Sekedar Nama</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab3.html" class="link-button">Bab 3: Bukan Kebetulan Lagi</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab4.html" class="link-button">Bab 4: Langit Tak Pernah Bertanya Mengapa</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab5.html" class="link-button">Bab 5: Hati yang Diam, Tapi Tidak Kosong</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab6.html" class="link-button">Bab 6: Semakin Dekat, Semakin Asing</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab7.html" class="link-button">Bab 7: Hari yang Tak Ingin Aku Lupakan</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab8.html" class="link-button">Bab 8: Ada yang Tidak Kamu Katakan</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab9.html" class="link-button">Bab 9: Saat Aku Tidak Lagi Bisa Diam</a></li>
-      <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab10.html" class="link-button">Bab 10: Surat yang Tidak Pernah Ingin Aku Temukan</a></li>
-    </ul>
-
-
-    <!-- konten lainnya tetap -->
+    <img src="/assets/img/wtp.png" alt="Cover Novel Langit Sekolah dan Rahasia Kita" class="novel-cover">
+    <div class="chapter-list">
+      <h2><i class="fas fa-list-ol"></i> Daftar Bab</h2>
+      <ul>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab1.html" class="current-chapter">Bab 1: Langit itu Masih Sama</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab2.html">Bab 2: Namanya Bukan Sekedar Nama</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab3.html">Bab 3: Bukan Kebetulan Lagi</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab4.html">Bab 4: Langit Tak Pernah Bertanya Mengapa</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab5.html">Bab 5: Hati yang Diam, Tapi Tidak Kosong</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab6.html">Bab 6: Semakin Dekat, Semakin Asing</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab7.html">Bab 7: Hari yang Tak Ingin Aku Lupakan</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab8.html">Bab 8: Ada yang Tidak Kamu Katakan</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab9.html">Bab 9: Saat Aku Tidak Lagi Bisa Diam</a></li>
+        <li><a href="/novel/langit-sekolah-dan-rahasia-kita/bab10.html">Bab 10: Surat yang Tidak Pernah Ingin Aku Temukan</a></li>
+      </ul>
+    </div>
   </div>
 
-  <div id="copy-alert" class="copy-alert">Link berhasil disalin!</div>
-
-  <!-- Floating WA + Share -->
+  <!-- Floating Action Buttons -->
   <div class="fab-container">
-    <a href="https://wa.me/6285882218063?text=Hai%20Syahdan,%20aku%20baru%20aja%20baca%20novelnya!" class="fab whatsapp" target="_blank" title="Chat Penulis di WhatsApp">💬</a>
-    <button class="fab share" onclick="openShare()" title="Bagikan">📤</button>
+    <a href="https://wa.me/6285882218063?text=Hai%20Syahdan,%20aku%20baru%20saja%20membaca%20bab%201%20novelmu!" 
+       class="fab fab-whatsapp" target="_blank" title="Chat Penulis">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <button class="fab fab-share" id="shareBtn" title="Bagikan">
+      <i class="fas fa-share-alt"></i>
+    </button>
+    <button class="fab fab-theme" id="themeFab" title="Ubah Tema">
+      <i class="fas fa-moon"></i>
+    </button>
   </div>
 
-  <div id="share-popup" class="share-popup">
-    <p>Bagikan ke:</p>
-    <a href="#" onclick="shareFacebook()">Facebook</a>
-    <a href="#" onclick="shareTwitter()">Twitter</a>
-    <button onclick="copyLink()">📋 Copy Link</button>
+  <!-- Share Popup -->
+  <div class="share-popup" id="sharePopup">
+    <h3><i class="fas fa-share-alt"></i> Bagikan Novel Ini</h3>
+    <div class="share-option facebook" onclick="shareFacebook()">
+      <i class="fab fa-facebook-f"></i>
+      <span>Facebook</span>
+    </div>
+    <div class="share-option twitter" onclick="shareTwitter()">
+      <i class="fab fa-twitter"></i>
+      <span>Twitter</span>
+    </div>
+    <div class="share-option copy-link" onclick="copyLink()">
+      <i class="fas fa-link"></i>
+      <span>Salin Link</span>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <span>Link berhasil disalin!</span>
   </div>
 
   <footer>
@@ -282,31 +523,85 @@
   </footer>
 
   <script>
-    function openShare() {
-      const popup = document.getElementById('share-popup');
-      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeFab = document.getElementById('themeFab');
+    const html = document.documentElement;
+    
+    function toggleTheme() {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      
+      // Update icon
+      const icon = themeToggle.querySelector('i');
+      const fabIcon = themeFab.querySelector('i');
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      fabIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Save preference
+      localStorage.setItem('theme', newTheme);
     }
+    
+    themeToggle.addEventListener('click', toggleTheme);
+    themeFab.addEventListener('click', toggleTheme);
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    themeFab.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+    // Share Functions
+    const shareBtn = document.getElementById('shareBtn');
+    const sharePopup = document.getElementById('sharePopup');
+    
+    shareBtn.addEventListener('click', () => {
+      sharePopup.classList.toggle('show');
+    });
+    
+    // Close share popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!shareBtn.contains(e.target) && !sharePopup.contains(e.target)) {
+        sharePopup.classList.remove('show');
+      }
+    });
 
     function shareFacebook() {
-      const url = window.location.href;
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+      sharePopup.classList.remove('show');
     }
 
     function shareTwitter() {
-      const url = window.location.href;
-      const text = "Baca novel Langit Sekolah dan Rahasia Kita! 📘";
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Saya sedang membaca novel 'Langit Sekolah dan Rahasia Kita' karya Syahdan Frahira");
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+      sharePopup.classList.remove('show');
     }
 
     function copyLink() {
       const url = window.location.href;
       navigator.clipboard.writeText(url).then(() => {
-        const alert = document.getElementById('copy-alert');
-        alert.style.display = 'block';
-        setTimeout(() => {
-          alert.style.display = 'none';
-        }, 2000);
+        showNotification();
+        sharePopup.classList.remove('show');
       });
+    }
+
+    function showNotification() {
+      const notification = document.getElementById('notification');
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 2500);
+    }
+
+    // Auto dark mode based on time
+    const hour = new Date().getHours();
+    if (hour >= 18 || hour <= 5) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggle.querySelector('i').className = 'fas fa-sun';
+      themeFab.querySelector('i').className = 'fas fa-sun';
     }
   </script>
 </body>
