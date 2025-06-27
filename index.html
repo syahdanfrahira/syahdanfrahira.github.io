@@ -456,6 +456,52 @@
       box-shadow: var(--shadow-md);
     }
 
+    /* Add this to your existing CSS */
+        .custom-context-menu {
+            display: none;
+            position: absolute;
+            width: 200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .custom-context-menu.visible {
+            display: block;
+            animation: fadeIn 0.15s ease-out;
+        }
+        
+        .context-menu-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .context-menu-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .context-menu-item i {
+            width: 18px;
+            text-align: center;
+        }
+        
+        .context-menu-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 3px 0;
+        }
+         @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     /* Social Icons */
     .social-icons {
       display: flex;
@@ -583,6 +629,7 @@
         height: calc(100% + 24px);
       }
     }
+    
   </style>
 </head>
 <body>
@@ -657,6 +704,30 @@
     </div>
   </div>
 
+  <!-- Add this to your HTML (can be at the bottom of body) -->
+    <div id="customContextMenu" class="custom-context-menu">
+        <div class="context-menu-item" onclick="window.location.reload()">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('https://www.instagram.com/syhdnfrahira')">
+            <i class="fab fa-instagram"></i> Instagram
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('mailto:samediadigitaltechnology@gmail.com')">
+            <i class="fas fa-envelope"></i> Email Saya
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="copyPageUrl()">
+            <i class="fas fa-link"></i> Salin Link
+        </div>
+        <div class="context-menu-item" onclick="openInNewTab()">
+            <i class="fas fa-external-link-alt"></i> Buka Tab Baru
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="showAbout()">
+            <i class="fas fa-info-circle"></i> Tentang
+        </div>
+    </div>
+
   <footer>
     <p>&copy; 2025 Syahdan Frahira. All rights reserved.</p>
   </footer>
@@ -680,6 +751,88 @@
         setTimeout(showWelcome, 500);
       }, 1800);
     });
+
+    // Add this to your existing JavaScript
+        const customContextMenu = document.getElementById('customContextMenu');
+        
+        // Disable default context menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showCustomMenu(e);
+        });
+        
+        // Close menu when clicking elsewhere
+        document.addEventListener('click', () => {
+            customContextMenu.classList.remove('visible');
+        });
+        
+        function showCustomMenu(e) {
+            // Position the menu
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Ensure menu stays within viewport
+            const menuWidth = customContextMenu.offsetWidth;
+            const menuHeight = customContextMenu.offsetHeight;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            let adjustedX = x;
+            let adjustedY = y;
+            
+            if (x + menuWidth > windowWidth) {
+                adjustedX = windowWidth - menuWidth - 5;
+            }
+            
+            if (y + menuHeight > windowHeight) {
+                adjustedY = windowHeight - menuHeight - 5;
+            }
+            
+            customContextMenu.style.left = `${adjustedX}px`;
+            customContextMenu.style.top = `${adjustedY}px`;
+            customContextMenu.classList.add('visible');
+        }
+        
+        // Menu item functions
+        function navigateTo(url) {
+            window.location.href = url;
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function copyPageUrl() {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Link disalin!',
+                        text: 'URL halaman ini telah disalin ke clipboard',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal menyalin',
+                        text: 'Tidak dapat menyalin URL: ' + err
+                    });
+                });
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function openInNewTab() {
+            window.open(window.location.href, '_blank');
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function showAbout() {
+            Swal.fire({
+                title: 'Tentang Halaman Ini',
+                html: '<b>Syahdan Frahira</b><br>Penulis & Web Developer<br><br>© 2025 All Rights Reserved',
+                confirmButtonText: 'Tutup'
+            });
+            customContextMenu.classList.remove('visible');
+        }
 
     // Theme Toggle
     const themeToggle = document.getElementById('themeToggle');
