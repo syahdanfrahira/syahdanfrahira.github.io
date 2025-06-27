@@ -3,299 +3,718 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pilih Game Seru</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <title>Koleksi Game Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --warna-utama: #00e1d3;
+      --warna-utama-hover: #00b4a9;
+      --warna-sekunder: #ff7e5f;
+      --warna-aksen: #9c4dff;
+      --gradien-latar: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      --kartu-bg: rgba(255, 255, 255, 0.08);
+      --kartu-hover-bg: rgba(255, 255, 255, 0.15);
+      --teks-terang: rgba(255,255,255,0.9);
+      --teks-lebih-terang: rgba(255,255,255,0.7);
+      --bayangan-gelap: 10px 10px 30px rgba(0,0,0,0.5);
+      --bayangan-terang: -8px -8px 20px rgba(255,255,255,0.05);
+      --popup-bg: rgba(30, 30, 50, 0.95);
+      --border-radius: 20px;
+      --transisi: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --gradien-emas: linear-gradient(135deg, #f5d78e 0%, #e8c26f 50%, #d9a441 100%);
+    }
+    
     * {
       box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-    body {
       margin: 0;
+      padding: 0;
+      transition: var(--transisi);
+    }
+    
+    body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #2c3e50, #4ca1af);
-      color: #fff;
+      background: var(--gradien-latar);
+      color: var(--teks-terang);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      line-height: 1.7;
       overflow-x: hidden;
+      position: relative;
     }
-    h1 {
-      margin: 40px 0 10px;
-      font-size: 2.4rem;
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=3000&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0.08;
+      z-index: -1;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    
+    header {
       text-align: center;
+      padding: 3rem 0 1rem;
+      position: relative;
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: var(--gradien-emas);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
       animation: fadeInDown 1s ease;
     }
-    .game-list {
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--warna-utama);
+      border-radius: 3px;
+    }
+    
+    .subtitle {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: var(--teks-lebih-terang);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+    }
+    
+    .daftar-game {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 1rem 0 3rem;
       width: 100%;
-      max-width: 1000px;
+      margin-bottom: 2rem;
     }
-    .game-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      padding: 25px 20px;
+    
+    .kartu-game {
+      background: var(--kartu-bg);
+      border-radius: var(--border-radius);
+      padding: 2.5rem 2rem;
       text-align: center;
-      box-shadow: 8px 8px 20px rgba(0,0,0,0.4),
-                  -6px -6px 15px rgba(255,255,255,0.05);
-      backdrop-filter: blur(6px);
+      box-shadow: var(--bayangan-gelap), var(--bayangan-terang);
+      backdrop-filter: blur(12px);
       animation: fadeInUp 0.7s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s, box-shadow 0.4s;
     }
-    .game-card:hover {
-      transform: translateY(-5px) scale(1.02);
+    
+    .kartu-game::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
     }
-    .game-card h2 {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
+    
+    .kartu-game:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 
+                  -10px -10px 30px rgba(255,255,255,0.08);
+      background: var(--kartu-hover-bg);
     }
-    .game-card p {
-      font-size: 0.95rem;
-      color: #ddd;
-      margin-bottom: 18px;
+    
+    .kartu-game:hover::before {
+      opacity: 1;
     }
-    .game-card a {
-      background: #00ffd0;
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 12px;
-      font-weight: bold;
+    
+    .ikon-game {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--warna-utama);
+      filter: drop-shadow(0 0 10px rgba(0, 225, 211, 0.4));
+    }
+    
+    .kartu-game h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .kartu-game p {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      color: var(--teks-lebih-terang);
+      margin-bottom: 2rem;
+      flex-grow: 1;
+      font-weight: 300;
+    }
+    
+    .kartu-game a {
+      background: var(--warna-utama);
+      color: #111;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
       text-decoration: none;
-      box-shadow: 0 5px 15px rgba(0,255,208,0.4);
+      box-shadow: 0 8px 20px rgba(0,225,211,0.3);
       cursor: pointer;
+      display: inline-block;
+      align-self: center;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      border: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
-    .game-card a:hover {
-      background: #00c9a7;
+    
+    .kartu-game a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: -1;
     }
+    
+    .kartu-game a:hover {
+      background: var(--warna-utama-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(0,225,211,0.4);
+    }
+    
+    .kartu-game a:hover::before {
+      opacity: 1;
+    }
+    
+    .segera-datang {
+      background: rgba(0,0,0,0.3) !important;
+      color: white !important;
+      position: relative;
+    }
+    
+    .segera-datang::after {
+      content: 'SEGERA HADIR';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--warna-aksen);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: bold;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      box-shadow: 0 3px 10px rgba(156, 77, 255, 0.5);
+    }
+    
     footer {
       margin-top: auto;
-      padding: 20px;
-      font-size: 0.85rem;
-      color: #ddd;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: var(--teks-lebih-terang);
       text-align: center;
+      width: 100%;
+      position: relative;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
     }
 
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    /* Popup */
+    /* Gaya Popup Premium */
     .popup {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.4s ease;
-    }
-    .popup.active {
-    opacity: 1;
-    pointer-events: all;
-    }
-    .popup-content {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 35px 25px;
-    border-radius: 18px;
-    text-align: center;
-    max-width: 320px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    animation: popupZoom 0.4s ease;
-    border: 1px solid rgba(255,255,255,0.3);
-    }
-    .popup-content h3 {
-    margin: 0 0 10px;
-    font-size: 1.6rem;
-    }
-    .popup-content p {
-    font-size: 0.95rem;
-    color: #eee;
-    }
-    .popup-content .emoji {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    }
-    .popup-content button {
-    margin-top: 20px;
-    padding: 10px 25px;
-    background: #00ffd0;
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,255,208,0.3);
-    }
-    .popup-content button:hover {
-    background: #00c9a7;
-    }
-    .popup-content button {
-    padding: 10px 20px;
-    background: #00ffd0;
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 255, 208, 0.3);
-    transition: transform 0.2s ease;
-    }
-    .popup-content button:hover {
-    background: #00c9a7;
-    transform: scale(1.05);
-    }
-
-
-    @keyframes popupZoom {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-    }
-
-
-    /* Loading screen */
-    #loading-screen {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: #2c3e50;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.5s ease;
+    }
+    
+    .popup.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .popup-content {
+      background: var(--popup-bg);
+      backdrop-filter: blur(20px);
       color: #fff;
-      font-size: 1.5rem;
-      z-index: 1000;
-      animation: fadeOut 1s 1.5s forwards;
+      padding: 3rem 2.5rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      max-width: 90%;
+      width: 100%;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      animation: popupZoom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
     }
+    
+    .popup-content::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(156, 77, 255, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+    
+    @media (min-width: 480px) {
+      .popup-content {
+        max-width: 450px;
+        padding: 3.5rem 3rem;
+      }
+    }
+    
+    .popup-content h3 {
+      font-family: 'Playfair Display', serif;
+      margin: 0 0 1.5rem;
+      font-size: clamp(1.6rem, 4vw, 2rem);
+      font-weight: 700;
+      color: white;
+    }
+    
+    .popup-content p {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: var(--teks-lebih-terang);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+    
+    .popup-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      color: var(--warna-utama);
+      filter: drop-shadow(0 0 15px rgba(0, 225, 211, 0.5));
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .popup-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    @media (min-width: 480px) {
+      .popup-buttons {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+    
+    .popup-btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      min-width: 160px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      z-index: 1;
+    }
+    
+    .popup-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: -1;
+    }
+    
+    .popup-btn-primary {
+      background: var(--warna-utama);
+      color: #111;
+      box-shadow: 0 8px 20px rgba(0, 225, 211, 0.4);
+    }
+    
+    .popup-btn-primary:hover {
+      background: var(--warna-utama-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(0, 225, 211, 0.5);
+    }
+    
+    .popup-btn-primary:hover::before {
+      opacity: 1;
+    }
+    
+    .popup-btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .popup-btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    
+    .popup-btn-secondary:hover::before {
+      opacity: 1;
+    }
+
+    /* Layar Loading Premium */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--gradien-latar);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      z-index: 10000;
+      animation: fadeOut 1s 2s forwards;
+    }
+    
     .loader {
-      border: 6px solid #ddd;
-      border-top: 6px solid #00ffd0;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-right: 15px;
+      position: relative;
+      margin-bottom: 2rem;
     }
+    
+    .loader::before,
+    .loader::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+    
+    .loader::before {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, var(--warna-utama) 50%, transparent 100%);
+      animation: spin 1.5s linear infinite;
+    }
+    
+    .loader::after {
+      width: 80%;
+      height: 80%;
+      background: var(--gradien-latar);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
     .loading-text {
-      font-weight: bold;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
     }
+    
+    .loading-subtext {
+      font-size: 0.8rem;
+      color: var(--teks-lebih-terang);
+      font-weight: 300;
+    }
+    
+    /* Animasi */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes popupZoom {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
     @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
+      to { opacity: 0; visibility: hidden; }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Penyesuaian untuk Mobile */
+    @media (max-width: 767px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+      
+      .daftar-game {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .kartu-game {
+        padding: 2rem 1.5rem;
+      }
+      
+      footer {
+        padding: 1.5rem;
       }
     }
-
-    @media (max-width: 500px) {
-      h1 { font-size: 1.8rem; }
+    
+    /* Penyesuaian untuk Tablet */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .daftar-game {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* Gaya Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--warna-utama);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--warna-utama-hover);
     }
   </style>
 </head>
 <body>
 
-<!-- Loading screen -->
+<!-- Layar Loading Premium -->
 <div id="loading-screen">
-  <div style="display: flex; align-items: center;">
-    <div class="loader"></div>
-    <div class="loading-text">Memuat Game...</div>
-  </div>
+  <div class="loader"></div>
+  <div class="loading-text">Memuat Pengalaman Premium</div>
+  <div class="loading-subtext">Please wait while we prepare something special</div>
 </div>
 
-<h1>🎮 Pilih Game Seru</h1>
-<div class="game-list">
-  <div class="game-card">
-    <h2>Tic Tac Toe</h2>
-    <p>Lawan AI dan menangkan 3 kotak berbaris!</p>
-    <a href="/game/tic-tac-toe.html.html" onclick="playClick()">Mainkan</a>
-  </div>
-  <div class="game-card">
-    <h2>Balon Tembak</h2>
-    <p>Seberapa cepat kamu bisa tembak balon?</p>
-    <a onclick="showPopup(); playClick()">Segera Hadir</a>
-  </div>
-  <div class="game-card">
-    <h2>Tebak Gambar</h2>
-    <p>Seberapa Detail kamu dalam meneliti gambar</p>
-    <a onclick="showPopup(); playClick()">Segera Hadir</a>
-  </div>
-  <div class="game-card">
-    <h2>Puzzle Geser</h2>
-    <p>Urutkan angka dari 1 hingga 15 secepatnya.</p>
-    <a onclick="showPopup(); playClick()">Segera Hadir</a>
-  </div>
-</div>
-
-<footer>© 2025 Syahdan Games. All rights reserved.</footer>
-
-<!-- Popup -->
-<div class="popup" id="comingSoonPopup">
-    <div class="popup-content">
-      <div class="emoji">🎮</div>
-      <h3>Segera Hadir!</h3>
-      <p>Game ini sedang dikembangkan dan akan segera tersedia.<br>Tertarik untuk jadi yang pertama tahu?</p>
-      <div style="margin-top: 20px;">
-        <button onclick="notifyMe()">🔔 Beritahu Saya</button>
-        <button onclick="hidePopup()" style="margin-left: 10px;">❌ Tutup</button>
-      </div>
+<div class="container">
+  <header>
+    <h1>Koleksi Game Premium</h1>
+    <p class="subtitle">Nikmati pilihan game terbaik dengan desain eksklusif dan gameplay yang tak tertandingi</p>
+  </header>
+  
+  <div class="daftar-game">
+    <div class="kartu-game">
+      <div class="ikon-game"><i class="fas fa-times"></i></div>
+      <h2>Tic Tac Toe</h2>
+      <p>Hadapi AI canggih dalam game klasik ini dengan visual menakjubkan dan berbagai tingkat kesulitan</p>
+      <a href="https://syahdanfrahira.github.io/game/tic-tac-toe.html" onclick="putarSuaraKlik()">Main Sekarang</a>
     </div>
-</div>
-  
-  
+    <div class="kartu-game">
+      <div class="ikon-game"><i class="fas fa-bullseye"></i></div>
+      <h2>Penembak Balon</h2>
+      <p>Uji ketepatanmu dalam pengalaman menembak balon premium dengan fisika realistis</p>
+      <a onclick="tampilkanPopupPremium(); putarSuaraKlik()" class="segera-datang">Segera Hadir</a>
+    </div>
+    <div class="kartu-game">
+      <div class="ikon-game"><i class="fas fa-image"></i></div>
+      <h2>Penebak Gambar</h2>
+      <p>Game tebak gambar canggih dengan koleksi karya seni dari seluruh dunia</p>
+      <a onclick="tampilkanPopupPremium(); putarSuaraKlik()" class="segera-datang">Segera Hadir</a>
+    </div>
+    <div class="kartu-game">
+      <div class="ikon-game"><i class="fas fa-puzzle-piece"></i></div>
+      <h2>Puzzle Geser</h2>
+      <p>Puzzle geser eksklusif dengan karya seni indah dan animasi yang halus</p>
+      <a onclick="tampilkanPopupPremium(); putarSuaraKlik()" class="segera-datang">Segera Hadir</a>
+    </div>
+  </div>
 
-<!-- Suara Klik -->
-<audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+  <footer>
+    © 2025 Studio Game Premium. Semua hak dilindungi.<br>
+    <small>Dibuat oleh Syahdan Frahira</i> untuk para gamer sejati</small>
+  </footer>
+</div>
+
+<!-- Popup Premium -->
+<div class="popup" id="comingSoonPopup">
+  <div class="popup-content">
+    <div class="popup-icon"><i class="fas fa-gem"></i></div>
+    <h3>Segera Hadir - Eksklusif</h3>
+    <p>Game premium ini sedang dalam pengembangan oleh tim ahli kami. Bergabunglah dengan daftar eksklusif kami untuk menjadi yang pertama mencoba mahakarya ini saat dirilis.</p>
+    <div class="popup-buttons">
+      <button class="popup-btn popup-btn-primary" onclick="beritahuPenggunaPremium()">
+        <i class="fas fa-bell"></i> Beritahu Saya
+      </button>
+      <button class="popup-btn popup-btn-secondary" onclick="sembunyikanPopupPremium()">
+        <i class="fas fa-times"></i> Tutup
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Elemen Audio Premium -->
+<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" preload="auto"></audio>
+<audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-neutral-interface-hover-3181.mp3" preload="auto"></audio>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  function playClick() {
-    document.getElementById("clickSound").play();
+  // Efek suara premium
+  function putarSuaraKlik() {
+    const suara = document.getElementById("clickSound");
+    suara.currentTime = 0;
+    suara.play().catch(e => console.log("Autoplay dicegah:", e));
+  }
+  
+  function putarSuaraHover() {
+    const suara = document.getElementById("hoverSound");
+    suara.currentTime = 0;
+    suara.volume = 0.3;
+    suara.play().catch(e => console.log("Autoplay dicegah:", e));
   }
 
-  function showPopup() {
-    document.getElementById("comingSoonPopup").classList.add("active");
-  }
-
-  function hidePopup() {
-    document.getElementById("comingSoonPopup").classList.remove("active");
-  }
-
-  function notifyMe() {
-  hidePopup();
-  Swal.fire({
-    icon: 'success',
-    title: 'Berhasil!',
-    text: 'Kami akan mengabari kamu saat game ini rilis. 🚀',
-    showConfirmButton: false,
-    timer: 2000
+  // Tambahkan efek hover ke semua elemen interaktif
+  document.querySelectorAll('.kartu-game, .popup-btn, .kartu-game a').forEach(el => {
+    el.addEventListener('mouseenter', putarSuaraHover);
   });
-  // Tambahkan efek suara jika ingin
-  // document.getElementById("clickSound").play();
-}
 
-  // Loading screen timeout
+  // Fungsi popup premium
+  function tampilkanPopupPremium() {
+    document.getElementById("comingSoonPopup").classList.add("active");
+    document.body.style.overflow = 'hidden';
+    putarSuaraKlik();
+  }
+
+  function sembunyikanPopupPremium() {
+    document.getElementById("comingSoonPopup").classList.remove("active");
+    document.body.style.overflow = 'auto';
+    putarSuaraKlik();
+  }
+
+  function beritahuPenggunaPremium() {
+    sembunyikanPopupPremium();
+    putarSuaraKlik();
+    Swal.fire({
+      title: '<span style="font-family:\'Playfair Display\', serif">Selamat Datang di Lingkaran Eksklusif</span>',
+      html: '<div style="font-family:\'Poppins\', sans-serif">Anda telah ditambahkan ke <b>daftar notifikasi premium</b> kami. Kami akan menghubungi Anda pertama kali saat game eksklusif ini siap diluncurkan.</div>',
+      icon: 'success',
+      background: 'rgba(30, 30, 50, 0.97)',
+      backdrop: 'rgba(0,0,0,0.7)',
+      color: 'white',
+      showConfirmButton: true,
+      confirmButtonText: 'Sempurna',
+      confirmButtonColor: 'var(--warna-utama)',
+      customClass: {
+        confirmButton: 'premium-confirm-btn'
+      }
+    });
+  }
+
+  // Layar loading premium
   window.addEventListener("load", () => {
     setTimeout(() => {
-      document.getElementById("loading-screen").style.display = "none";
-    }, 1500);
+      const loadingScreen = document.getElementById("loading-screen");
+      loadingScreen.style.animation = 'fadeOut 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards';
+      loadingScreen.addEventListener('animationend', () => {
+        loadingScreen.style.display = 'none';
+      });
+    }, 2000);
   });
+
+  // Efek paralaks untuk kartu game
+  document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.kartu-game');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const angleX = (y - centerY) / 20;
+      const angleY = (centerX - x) / 20;
+      
+      card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+    });
+  });
+
+  // Reset transform kartu saat mouse keluar
+  document.querySelectorAll('.kartu-game').forEach(card => {
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    });
+  });
+
+  // Efek hover untuk perangkat mobile
+  document.addEventListener('touchstart', function() {}, true);
 </script>
 </body>
 </html>
