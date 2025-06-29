@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Joki Tugas & Portfolio - Syahdan Frahira</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --text: #2b2d42;
+      --text-light: #8d99ae;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.16);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    [data-theme="dark"] {
+      --primary: #4895ef;
+      --primary-dark: #4361ee;
+      --secondary: #b5179e;
+      --accent: #f72585;
+      --text: #f8f9fa;
+      --text-light: #adb5bd;
+      --bg: #121212;
+      --card: #1e1e1e;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 20px;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: var(--transition);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+      background-size: cover;
+    }
+
+    .header h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header p {
+      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Container */
+    .container {
+      max-width: min(800px, 90vw);
+      margin: 0 auto 3rem;
+      background: var(--card);
+      padding: 2.5rem;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 1.8rem);
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    input, textarea, select {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,0,0,0.1);
+      font-size: 1rem;
+      background: var(--card);
+      color: var(--text);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    input:invalid, textarea:invalid, select:invalid {
+      border-color: var(--accent);
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 1rem 1.5rem;
+      background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .whatsapp-btn {
+      background: linear-gradient(145deg, #25D366, #128C7E);
+    }
+
+    .email-btn {
+      background: linear-gradient(145deg, #EA4335, #D14836);
+    }
+
+    /* Custom Context Menu */
+    .custom-context-menu {
+      display: none;
+      position: fixed;
+      width: 200px;
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .custom-context-menu.visible {
+      display: block;
+      animation: fadeIn 0.15s ease-out;
+    }
+    
+    .context-menu-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    
+    .context-menu-item:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .context-menu-item i {
+      width: 18px;
+      text-align: center;
+      color: var(--primary);
+    }
+    
+    .context-menu-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.1);
+      margin: 3px 0;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg) scale(1.1);
+    }
+
+    /* Portfolio Section */
+    .portfolio {
+      margin-top: 4rem;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .portfolio-item {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portfolio-content {
+      padding: 1.2rem;
+    }
+
+    .portfolio-item h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .portfolio-item p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      padding: 0.3rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: var(--card);
+      color: var(--text);
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      border: none;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      z-index: 999;
+      transition: var(--transition);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .container {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+      }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>📝 Joki Tugas Profesional</h1>
+    <p>Dapatkan bantuan mengerjakan tugas akademik dengan kualitas terbaik dari Syahdan Frahira</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h2>Formulir Pemesanan</h2>
+    
+    <form id="jokiForm">
+      <div class="form-group">
+        <label for="nama"><i class="fas fa-user"></i> Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="judul"><i class="fas fa-book"></i> Judul Tugas</label>
+        <input type="text" id="judul" placeholder="Masukkan judul tugas" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="deadline"><i class="fas fa-calendar-alt"></i> Deadline</label>
+        <input type="date" id="deadline" name="deadline" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="kategori"><i class="fas fa-tags"></i> Kategori Tugas</label>
+        <select id="kategori" required>
+          <option value="">Pilih Kategori Tugas</option>
+          <option value="Makalah">Makalah</option>
+          <option value="Presentasi">Presentasi</option>
+          <option value="Coding / Programming">Coding / Programming</option>
+          <option value="Artikel / Essay">Artikel / Essay</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="deskripsi"><i class="fas fa-file-alt"></i> Deskripsi Tugas</label>
+        <textarea id="deskripsi" rows="5" placeholder="Deskripsi detail tugas, referensi, dan spesifikasi lainnya" required></textarea>
+      </div>
+      
+      <div class="button-group">
+        <button type="button" class="whatsapp-btn" onclick="kirimViaWA()">
+          <i class="fab fa-whatsapp"></i> Kirim via WhatsApp
+        </button>
+        <button type="button" class="email-btn" onclick="kirimViaEmail()">
+          <i class="fas fa-envelope"></i> Kirim via Email
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Portfolio Section -->
+  <div class="container portfolio">
+    <h2>Portfolio Tugas Terkini</h2>
+    
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="https://0.academia-photos.com/attachment_thumbnails/35669282/mini_magick20180815-27276-1ced2fk.png?1534391552" alt="Contoh Makalah">
+        <div class="portfolio-content">
+          <h3>Analisis Dampak Media Sosial</h3>
+          <p>Makalah penelitian 15 halaman dengan analisis kualitatif dampak media sosial pada remaja</p>
+          <div class="portfolio-tags">
+            <span class="tag">Makalah</span>
+            <span class="tag">Sosiologi</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="portfolio-item">
+        <img src="https://www.codekop.com/storage/filemanager/1/cb5e7061f8f0c062f32466ceb57b485d.png" alt="Contoh Coding">
+        <div class="portfolio-content">
+          <h3>Aplikasi Manajemen Perpustakaan</h3>
+          <p>Sistem manajemen perpustakaan berbasis web dengan PHP dan MySQL</p>
+          <div class="portfolio-tags">
+            <span class="tag">Programming</span>
+            <span class="tag">Web Development</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="portfolio-item">
+        <img src="https://cdn.slidesharecdn.com/ss_thumbnails/kelompok2pptpresentasi-200121093017-thumbnail.jpg?width=640&height=640&fit=bounds" alt="Contoh Presentasi">
+        <div class="portfolio-content">
+          <h3>Slide Presentasi Bisnis</h3>
+          <p>Template presentasi profesional untuk pitch deck startup teknologi</p>
+          <div class="portfolio-tags">
+            <span class="tag">Presentasi</span>
+            <span class="tag">Bisnis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Context Menu -->
+  <div id="customContextMenu" class="custom-context-menu">
+    <div class="context-menu-item" onclick="window.location.reload()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </div>
+    <div class="context-menu-item" onclick="navigateTo('https://www.instagram.com/syhdnfrahira')">
+      <i class="fab fa-instagram"></i> Instagram
+    </div>
+    <div class="context-menu-item" onclick="navigateTo('mailto:samediadigitaltechnology@gmail.com')">
+      <i class="fas fa-envelope"></i> Email Saya
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" onclick="copyPageUrl()">
+      <i class="fas fa-link"></i> Salin Link
+    </div>
+    <div class="context-menu-item" onclick="openInNewTab()">
+      <i class="fas fa-external-link-alt"></i> Buka Tab Baru
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" onclick="showAbout()">
+      <i class="fas fa-info-circle"></i> Tentang
+    </div>
+  </div>
+
+<script>
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', newTheme);
+    
+    // Update icon with animation
+    const icon = themeToggle.querySelector('i');
+    icon.classList.add('animate__animated', 'animate__flip');
+    setTimeout(() => {
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      icon.classList.remove('animate__flip');
+    }, 300);
+    
+    // Save preference
+    localStorage.setItem('theme', newTheme);
+  });
+
+  // Custom Context Menu
+  const customContextMenu = document.getElementById('customContextMenu');
+  
+  // Disable default context menu
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    showCustomMenu(e);
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!customContextMenu.contains(e.target)) {
+      customContextMenu.classList.remove('visible');
+    }
+  });
+  
+  function showCustomMenu(e) {
+    // Position the menu
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    // Ensure menu stays within viewport
+    const menuWidth = customContextMenu.offsetWidth;
+    const menuHeight = customContextMenu.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    let adjustedX = x;
+    let adjustedY = y;
+    
+    if (x + menuWidth > windowWidth) {
+      adjustedX = windowWidth - menuWidth - 5;
+    }
+    
+    if (y + menuHeight > windowHeight) {
+      adjustedY = windowHeight - menuHeight - 5;
+    }
+    
+    customContextMenu.style.left = `${adjustedX}px`;
+    customContextMenu.style.top = `${adjustedY}px`;
+    customContextMenu.classList.add('visible');
+  }
+  
+  // Menu item functions
+  function navigateTo(url) {
+    window.location.href = url;
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function copyPageUrl() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Link disalin!',
+          text: 'URL halaman ini telah disalin ke clipboard',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal menyalin',
+          text: 'Tidak dapat menyalin URL: ' + err
+        });
+      });
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function openInNewTab() {
+    window.open(window.location.href, '_blank');
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function showAbout() {
+    Swal.fire({
+      title: 'Tentang Halaman Ini',
+      html: '<b>Syahdan Frahira</b><br>Penulis & Web Developer<br><br>© 2025 All Rights Reserved',
+      confirmButtonText: 'Tutup'
+    });
+    customContextMenu.classList.remove('visible');
+  }
+
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  html.setAttribute('data-theme', savedTheme);
+  themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+  // Form Validation
+  function validateForm() {
+    const nama = document.getElementById('nama').value.trim();
+    const judul = document.getElementById('judul').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const deskripsi = document.getElementById('deskripsi').value.trim();
+    const deadline = document.getElementById('deadline').value.trim();
+    
+    if (!nama || !judul || !kategori || !deskripsi || !deadline) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Form Tidak Lengkap',
+        text: 'Harap isi semua field yang diperlukan',
+        confirmButtonColor: 'var(--primary)'
+      });
+      return false;
+    }
+    
+    // Validate deadline
+    const today = new Date();
+    const deadlineDate = new Date(deadline);
+    
+    if (deadlineDate < today) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Deadline Tidak Valid',
+        text: 'Deadline tidak boleh sebelum hari ini',
+        confirmButtonColor: 'var(--primary)'
+      });
+      return false;
+    }
+    
+    return true;
+  }
+
+  function resetForm() {
+    document.getElementById('jokiForm').reset();
+  }
+
+  function showSuccessAlert(message) {
+    return Swal.fire({
+      title: 'Berhasil!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: 'var(--primary)',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+  }
+
+  // WhatsApp Function
+  function kirimViaWA() {
+    if (!validateForm()) return;
+
+    const nama = document.getElementById('nama').value.trim();
+    const judul = document.getElementById('judul').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const deskripsi = document.getElementById('deskripsi').value.trim();
+    const deadline = document.getElementById('deadline').value.trim();
+    const noWA = '6285882218063';
+
+    const pesan = 
+`📝 *Order Joki Tugas - Syahdan Frahira* 🧠🔥%0A%0A` +
+`👤 *Nama:* ${nama}%0A` +
+`📚 *Judul Tugas:* ${judul}%0A` +
+`🗓️ *Deadline:* ${new Date(deadline).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}%0A` +
+`📂 *Kategori:* ${kategori}%0A` +
+`📝 *Deskripsi:*%0A${deskripsi}%0A%0A` +
+`🙏 Mohon bantuannya ya kak! Ditunggu konfirmasinya. Terima kasih! 🤝✨`;
+
+    showSuccessAlert('Mengarahkan ke WhatsApp...').then(() => {
+      window.open(`https://wa.me/${noWA}?text=${pesan}`, '_blank');
+      resetForm();
+    });
+  }
+
+  // Email Function
+  function kirimViaEmail() {
+    if (!validateForm()) return;
+
+    const nama = document.getElementById('nama').value.trim();
+    const judul = document.getElementById('judul').value.trim();
+    const kategori = document.getElementById('kategori').value;
+    const deskripsi = document.getElementById('deskripsi').value.trim();
+    const deadline = document.getElementById('deadline').value.trim();
+    const email = 'samediadigitaltechnology@gmail.com';
+    const subject = `Order Joki Tugas - ${nama}`;
+    const body = `Assalamualaikum Syahdan,%0A%0ASaya mau order joki tugas:%0A%0ANama: ${nama}%0AJudul Tugas: ${judul}%0AKategori: ${kategori}%0ADeskripsi: ${deskripsi}%0ADeadline: ${new Date(deadline).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}%0A%0AMohon informasinya. Terima kasih!`;
+
+    showSuccessAlert('Membuka aplikasi email...').then(() => {
+      window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+      resetForm();
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isi Kesan & Pesan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-color: #25D366;
+            --secondary-color: #128C7E;
+            --accent-color: #DCF8C6;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #34B7F1;
+            --error-color: #f72585;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .feedback-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .whatsapp-info {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Custom Context Menu */
+        .custom-context-menu {
+        display: none;
+        position: fixed;
+        width: 200px;
+        background: var(--card);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .custom-context-menu.visible {
+        display: block;
+        animation: fadeIn 0.15s ease-out;
+        }
+        
+        .context-menu-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--text);
+        }
+        
+        .context-menu-item:hover {
+        background: rgba(0,0,0,0.05);
+        }
+        
+        .context-menu-item i {
+        width: 18px;
+        text-align: center;
+        color: var(--primary);
+        }
+        
+        .context-menu-divider {
+        height: 1px;
+        background: rgba(0,0,0,0.1);
+        margin: 3px 0;
+        }
+        
+        @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Popup Styling */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+
+        .popup-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .popup-message {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .popup-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .popup-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .feedback-form {
+                padding: 1.5rem;
+            }
+            
+            .popup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-whatsapp"></i> Kesan & Pesan</h1>
+            <p>Isi form berikut dan Anda akan diarahkan ke WhatsApp untuk mengirimkan pesan</p>
+        </header>
+
+        <div class="feedback-form">
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="name">Nama Anda</label>
+                    <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <select id="rating" name="rating" required>
+                        <option value="" disabled selected>Pilih rating</option>
+                        <option value="5">⭐️⭐️⭐️⭐️⭐️ (Sangat Puas)</option>
+                        <option value="4">⭐️⭐️⭐️⭐️ (Puas)</option>
+                        <option value="3">⭐️⭐️⭐️ (Cukup)</option>
+                        <option value="2">⭐️⭐️ (Kurang Puas)</option>
+                        <option value="1">⭐️ (Tidak Puas)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Kesan & Pesan</label>
+                    <textarea id="message" name="message" placeholder="Tuliskan kesan dan pesan Anda..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn"><i class="fab fa-whatsapp"></i> Lanjut ke WhatsApp</button>
+            </form>
+            
+            <div class="whatsapp-info">
+                <p>Anda akan diarahkan ke WhatsApp Syahdan Frahira</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Success -->
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup-content">
+            <div class="popup-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="popup-title">Form Terkirim!</h3>
+            <p class="popup-message">Anda akan diarahkan ke WhatsApp dalam 3 detik...</p>
+            <button class="popup-btn" id="continueBtn">Lanjut Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Custom Context Menu -->
+    <div id="customContextMenu" class="custom-context-menu">
+        <div class="context-menu-item" onclick="window.location.reload()">
+        <i class="fas fa-sync-alt"></i> Refresh
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('https://www.instagram.com/syhdnfrahira')">
+        <i class="fab fa-instagram"></i> Instagram
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('mailto:samediadigitaltechnology@gmail.com')">
+        <i class="fas fa-envelope"></i> Email Saya
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="copyPageUrl()">
+        <i class="fas fa-link"></i> Salin Link
+        </div>
+        <div class="context-menu-item" onclick="openInNewTab()">
+        <i class="fas fa-external-link-alt"></i> Buka Tab Baru
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="showAbout()">
+        <i class="fas fa-info-circle"></i> Tentang
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Ambil nilai form
+            const name = document.getElementById('name').value;
+            const rating = document.getElementById('rating').value;
+            const message = document.getElementById('message').value;
+            
+            // Validasi
+            if(!name || !rating || !message) {
+                alert('Harap lengkapi semua field!');
+                return;
+            }
+            
+             // Custom Context Menu
+  const customContextMenu = document.getElementById('customContextMenu');
+  
+  // Disable default context menu
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    showCustomMenu(e);
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!customContextMenu.contains(e.target)) {
+      customContextMenu.classList.remove('visible');
+    }
+  });
+  
+  function showCustomMenu(e) {
+    // Position the menu
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    // Ensure menu stays within viewport
+    const menuWidth = customContextMenu.offsetWidth;
+    const menuHeight = customContextMenu.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    let adjustedX = x;
+    let adjustedY = y;
+    
+    if (x + menuWidth > windowWidth) {
+      adjustedX = windowWidth - menuWidth - 5;
+    }
+    
+    if (y + menuHeight > windowHeight) {
+      adjustedY = windowHeight - menuHeight - 5;
+    }
+    
+    customContextMenu.style.left = `${adjustedX}px`;
+    customContextMenu.style.top = `${adjustedY}px`;
+    customContextMenu.classList.add('visible');
+  }
+  
+  // Menu item functions
+  function navigateTo(url) {
+    window.location.href = url;
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function copyPageUrl() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Link disalin!',
+          text: 'URL halaman ini telah disalin ke clipboard',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal menyalin',
+          text: 'Tidak dapat menyalin URL: ' + err
+        });
+      });
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function openInNewTab() {
+    window.open(window.location.href, '_blank');
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function showAbout() {
+    Swal.fire({
+      title: 'Tentang Halaman Ini',
+      html: '<b>Syahdan Frahira</b><br>Penulis & Web Developer<br><br>© 2025 All Rights Reserved',
+      confirmButtonText: 'Tutup'
+    });
+    customContextMenu.classList.remove('visible');
+  }
+            // Tampilkan popup
+            document.getElementById('successPopup').classList.add('active');
+            
+            // Simpan data untuk redirect
+            const whatsappMessage = `Halo, saya ${name}!\n\nSaya ingin memberikan kesan dan pesan:\n\nRating: ${'⭐️'.repeat(rating)}\nPesan: ${message}\n\nTerima kasih!`;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const phoneNumber = '085882218063';
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Set timeout untuk redirect otomatis
+            let redirectTimer = setTimeout(() => {
+                window.location.href = whatsappUrl;
+            }, 3000);
+            
+            // Button untuk redirect manual
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                clearTimeout(redirectTimer);
+                window.location.href = whatsappUrl;
+            });
+        });
+    </script>
+</body>
+</html>
