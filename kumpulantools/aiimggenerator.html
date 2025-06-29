@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator - syahdanfrahira.github.io</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            padding: 0 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1rem;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: var(--gray);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Image Generator */
+        .image-generator {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.7rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-direction: column;
+        }
+
+        /* Image Result */
+        .result-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .image-result {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .generated-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            aspect-ratio: 1/1;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generated-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .image-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            display: flex;
+            justify-content: space-around;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .generated-image:hover .image-actions {
+            transform: translateY(0);
+        }
+
+        .image-actions button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.5rem;
+        }
+
+        .image-actions button:hover {
+            color: var(--accent);
+        }
+
+        /* Style Options */
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .style-option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .style-option:hover {
+            border-color: var(--primary);
+        }
+
+        .style-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.1);
+        }
+
+        .style-option img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 0.3rem;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            color: var(--gray);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--gray);
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsif untuk mobile */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .logo i {
+                font-size: 1.3rem;
+            }
+            
+            .image-result {
+                grid-template-columns: 1fr;
+            }
+            
+            .style-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tab-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .btn-group {
+                flex-direction: row;
+            }
+            
+            .btn {
+                width: auto;
+            }
+            
+            .result-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .image-result {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .image-result {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-magic"></i>
+                <span>AI Image Generator</span>
+            </div>
+            <p class="tagline">Buat gambar menakjubkan dari teks dengan teknologi AI</p>
+        </header>
+
+        <div class="image-generator">
+            <form id="imageForm">
+                <div class="form-group">
+                    <label for="imagePrompt">Deskripsi Gambar</label>
+                    <textarea id="imagePrompt" placeholder="Deskripsikan gambar yang ingin Anda buat. Semakin detail semakin baik! Contoh: 'Pemandangan sunset di pantai dengan pohon kelapa siluet'" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageStyle">Gaya Gambar</label>
+                    <select id="imageStyle">
+                        <option value="realistic">Realistis</option>
+                        <option value="cartoon">Kartun</option>
+                        <option value="anime">Anime</option>
+                        <option value="painting">Lukisan</option>
+                        <option value="3d">3D Render</option>
+                        <option value="fantasy">Fantasi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pilihan Gaya (Opsional)</label>
+                    <div class="style-options">
+                        <div class="style-option" data-style="minimalist">
+                            <img src="https://philipsbekasi.id/wp-content/uploads/2023/02/1-Mengenal-Konsep-Desain-Minimalis_Philips-Bekasi-2.jpg" alt="Minimalis">
+                            <span>Minimalis</span>
+                        </div>
+                        <div class="style-option" data-style="cyberpunk">
+                            <img src="https://img.lovepik.com/photo/40188/8043.jpg_wh860.jpg" alt="Cyberpunk">
+                            <span>Cyberpunk</span>
+                        </div>
+                        <div class="style-option" data-style="watercolor">
+                            <img src="https://i.ytimg.com/vi/3GQYvnZUiVA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBbc91cRpUzNXbQ1XqEWTynr4alQA" alt="Watercolor">
+                            <span>Watercolor</span>
+                        </div>
+                        <div class="style-option" data-style="pixelart">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUTu7W9K1od5c2LfSX_E34hA7LNmCoe8sSzQ&s" alt="Pixel Art">
+                            <span>Pixel Art</span>
+                        </div>
+                        <div class="style-option" data-style="steampunk">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Classic_Steam_I_-_Flickr_-_SoulStealer.co.uk.jpg/1200px-Classic_Steam_I_-_Flickr_-_SoulStealer.co.uk.jpg" alt="Steampunk">
+                            <span>Steampunk</span>
+                        </div>
+                        <div class="style-option" data-style="surreal">
+                            <img src="https://www.vice.com/wp-content/uploads/sites/2/2014/05/f58c9e84947e3c4e208e089a8c2ab762.jpg?w=595" alt="Surreal">
+                            <span>Surreal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageNumber">Jumlah Gambar</label>
+                    <input type="number" id="imageNumber" min="1" max="4" value="1">
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-magic"></i> Generate Image
+                    </button>
+                    <button type="button" class="btn btn-outline" id="clearBtn">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="loading" id="loadingIndicator">
+            <i class="fas fa-spinner"></i>
+            <p>Sedang membuat gambar Anda...</p>
+            <p>Ini mungkin memakan waktu beberapa detik</p>
+        </div>
+
+        <div class="result-container" id="imageResultContainer">
+            <div class="result-header">
+                <h3 class="result-title">Hasil Gambar AI</h3>
+                <button id="downloadAllBtn" class="btn">
+                    <i class="fas fa-download"></i> Download Semua
+                </button>
+            </div>
+            <div class="image-result" id="imageResult"></div>
+        </div>
+
+        <footer>
+            <p>© 2023 syahdanfrahira.github.io - AI Image Generator</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageForm = document.getElementById('imageForm');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const imageResultContainer = document.getElementById('imageResultContainer');
+            const imageResult = document.getElementById('imageResult');
+            const clearBtn = document.getElementById('clearBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const styleOptions = document.querySelectorAll('.style-option');
+
+            // Pilih gaya gambar
+            let selectedStyle = null;
+            styleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    styleOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedStyle = this.getAttribute('data-style');
+                });
+            });
+
+            // Generate gambar
+            imageForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const prompt = document.getElementById('imagePrompt').value;
+                const style = document.getElementById('imageStyle').value;
+                const number = document.getElementById('imageNumber').value;
+                
+                if (!prompt) {
+                    alert('Silakan masukkan deskripsi gambar terlebih dahulu');
+                    return;
+                }
+                
+                // Tampilkan loading
+                loadingIndicator.style.display = 'block';
+                imageResultContainer.style.display = 'none';
+                imageResult.innerHTML = '';
+                
+                // Scroll ke loading indicator
+                loadingIndicator.scrollIntoView({ behavior: 'smooth' });
+                
+                // Simulasikan generate gambar (dalam implementasi nyata, ini akan memanggil API AI)
+                setTimeout(() => {
+                    generateImages(prompt, style, number, selectedStyle);
+                }, 1500);
+            });
+            
+            // Fungsi untuk generate gambar (simulasi)
+            function generateImages(prompt, style, number, extraStyle) {
+                // Kosongkan hasil sebelumnya
+                imageResult.innerHTML = '';
+                
+                // Generate gambar placeholder (dalam implementasi nyata, ini akan memanggil API AI)
+                for (let i = 0; i < number; i++) {
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'generated-image';
+                    
+                    const img = document.createElement('img');
+                    // Gunakan placeholder random dari picsum.photos
+                    const randomSeed = Math.floor(Math.random() * 1000);
+                    let imageUrl = `https://picsum.photos/seed/${randomSeed}/500/500`;
+                    
+                    // Sesuaikan URL berdasarkan style yang dipilih (simulasi)
+                    if (style === 'cartoon') {
+                        imageUrl += '?grayscale';
+                    } else if (style === 'anime') {
+                        imageUrl += '?blur=2';
+                    } else if (style === 'painting') {
+                        imageUrl += '?blur=1';
+                    }
+                    
+                    img.src = imageUrl;
+                    img.alt = prompt;
+                    img.style.display = 'block';
+                    
+                    const imageActions = document.createElement('div');
+                    imageActions.className = 'image-actions';
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+                    downloadBtn.addEventListener('click', () => downloadImage(imageUrl, prompt));
+                    
+                    const shareBtn = document.createElement('button');
+                    shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
+                    shareBtn.addEventListener('click', () => shareImage(imageUrl, prompt));
+                    
+                    imageActions.appendChild(downloadBtn);
+                    imageActions.appendChild(shareBtn);
+                    
+                    imageContainer.appendChild(img);
+                    imageContainer.appendChild(imageActions);
+                    
+                    imageResult.appendChild(imageContainer);
+                }
+                
+                // Sembunyikan loading dan tampilkan hasil
+                loadingIndicator.style.display = 'none';
+                imageResultContainer.style.display = 'block';
+                imageResultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Download gambar
+            function downloadImage(url, prompt) {
+                // Dalam implementasi nyata, ini akan mendownload gambar asli dari API
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `ai-image-${prompt.substring(0, 20).toLowerCase().replace(/\s+/g, '-')}-${Date.now()}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Download semua gambar
+            downloadAllBtn.addEventListener('click', function() {
+                const images = imageResult.querySelectorAll('img');
+                if (images.length === 0) {
+                    alert('Tidak ada gambar yang bisa didownload');
+                    return;
+                }
+                
+                images.forEach((img, index) => {
+                    setTimeout(() => {
+                        downloadImage(img.src, `image-${index + 1}`);
+                    }, index * 300);
+                });
+            });
+            
+            // Share gambar (simulasi)
+            function shareImage(url, prompt) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Gambar AI yang saya buat',
+                        text: `Saya membuat gambar AI dengan prompt: "${prompt}"`,
+                        url: url
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                        alert('Berbagi dibatalkan atau tidak berhasil');
+                    });
+                } else {
+                    // Fallback untuk browser yang tidak mendukung Web Share API
+                    alert('Fitur berbagi tidak tersedia di browser ini. Anda bisa menyalin link gambar secara manual.');
+                }
+            }
+            
+            // Clear form
+            clearBtn.addEventListener('click', function() {
+                imageForm.reset();
+                imageResultContainer.style.display = 'none';
+                imageResult.innerHTML = '';
+                styleOptions.forEach(opt => opt.classList.remove('selected'));
+                selectedStyle = null;
+            });
+        });
+    </script>
+</body>
+</html>

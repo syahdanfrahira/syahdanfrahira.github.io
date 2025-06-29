@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kumpulan Tools Keren - syahdanfrahira.github.io</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            padding: 0 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1rem;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: var(--gray);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tool Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .tool-desc {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Prompt Generator */
+        .prompt-generator {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.7rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-direction: column;
+        }
+
+        /* Custom Context Menu */
+        .custom-context-menu {
+        display: none;
+        position: fixed;
+        width: 200px;
+        background: var(--card);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .custom-context-menu.visible {
+        display: block;
+        animation: fadeIn 0.15s ease-out;
+        }
+        
+        .context-menu-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--text);
+        }
+        
+        .context-menu-item:hover {
+        background: rgba(0,0,0,0.05);
+        }
+        
+        .context-menu-item i {
+        width: 18px;
+        text-align: center;
+        color: var(--primary);
+        }
+        
+        .context-menu-divider {
+        height: 1px;
+        background: rgba(0,0,0,0.1);
+        margin: 3px 0;
+        }
+        
+        @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Result Container */
+        .result-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .prompt-result {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--gray);
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsif untuk mobile */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .logo i {
+                font-size: 1.3rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prompt-generator, .result-container {
+                padding: 1.2rem;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tab-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: row;
+            }
+            
+            .btn {
+                width: auto;
+            }
+            
+            .result-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            color: var(--gray);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-tools"></i>
+                <span>SYAHDAN TOOLS</span>
+            </div>
+            <p class="tagline">Kumpulan Tools Keren All-in-One untuk Berbagai Kebutuhan</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="ai-tools">AI Tools</button>
+            <button class="tab-btn" data-tab="converter">Konverter</button>
+            <button class="tab-btn" data-tab="calculators">Kalkulator</button>
+            <button class="tab-btn" data-tab="other-tools">Lainnya</button>
+        </div>
+
+        <!-- AI Tools Tab -->
+        <div id="ai-tools" class="tab-content active">
+            <h2>AI Tools Keren</h2>
+            <p>Berbagai alat berbasis AI untuk membantu pekerjaan dan kreativitas Anda</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="tool-title">Prompt Generator</h3>
+                    <p class="tool-desc">Buat prompt AI berkualitas tinggi untuk berbagai kebutuhan seperti konten, gambar, dan kode program.</p>
+                    <button class="btn" id="openPromptBtn">Buka Tool</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3 class="tool-title">AI Image Generator</h3>
+                    <p class="tool-desc">Buat gambar dari teks dengan teknologi AI (coming soon).</p>
+                    <a href="aiimggenerator.html" class="btn">Buka Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="tool-title">AI Code Assistant</h3>
+                    <p class="tool-desc">Bantu generate dan jelaskan kode program (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+            </div>
+            
+            <!-- Prompt Generator Form (hidden by default) -->
+            <div id="promptGenerator" class="prompt-generator" style="display: none;">
+                <h3>Prompt Generator</h3>
+                <p>Buat prompt AI yang efektif untuk berbagai kebutuhan</p>
+                
+                <form id="promptForm">
+                    <div class="form-group">
+                        <label for="promptType">Jenis Prompt</label>
+                        <select id="promptType" required>
+                            <option value="">Pilih jenis prompt...</option>
+                            <option value="copywriting">Copywriting/Iklan</option>
+                            <option value="video">Script Video</option>
+                            <option value="art">Seni Digital/Illustrasi</option>
+                            <option value="code">Kode Program</option>
+                            <option value="story">Cerita/Konten Kreatif</option>
+                            <option value="other">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promptTone">Nada Prompt</label>
+                        <select id="promptTone" required>
+                            <option value="">Pilih nada...</option>
+                            <option value="profesional">Profesional</option>
+                            <option value="friendly">Ramah</option>
+                            <option value="fun">Menyenangkan</option>
+                            <option value="persuasif">Persuasif</option>
+                            <option value="teknis">Teknis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promptDetail">Detail Kebutuhan Anda</label>
+                        <textarea id="promptDetail" placeholder="Jelaskan secara detail apa yang Anda butuhkan. Semakin spesifik, hasil akan semakin baik!" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promptExample">Contoh yang Anda Sukai (Opsional)</label>
+                        <textarea id="promptExample" placeholder="Masukkan contoh prompt atau hasil yang Anda inginkan (jika ada)"></textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn">Buat Prompt AI</button>
+                        <button type="button" class="btn btn-outline" id="closePromptBtn">Kembali</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Prompt Result -->
+            <div id="promptResultContainer" class="result-container">
+                <div class="result-header">
+                    <h3 class="result-title">Prompt AI Anda</h3>
+                    <button id="copyPromptBtn" class="btn">Salin Prompt</button>
+                </div>
+                <div class="prompt-result" id="generatedPrompt"></div>
+            </div>
+        </div>
+
+        <!-- Converter Tab -->
+        <div id="converter" class="tab-content">
+            <h2>Konverter</h2>
+            <p>Berbagai alat konversi untuk kebutuhan sehari-hari</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Konverter Mata Uang</h3>
+                    <p class="tool-desc">Konversi nilai mata uang dari berbagai negara secara real-time (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-ruler"></i>
+                    </div>
+                    <h3 class="tool-title">Konverter Satuan</h3>
+                    <p class="tool-desc">Konversi berbagai satuan panjang, berat, volume, dan lainnya (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3 class="tool-title">Konverter Kode Warna</h3>
+                    <p class="tool-desc">Konversi antara HEX, RGB, HSL dan format warna lainnya (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculators Tab -->
+        <div id="calculators" class="tab-content">
+            <h2>Kalkulator</h2>
+            <p>Berbagai kalkulator untuk kebutuhan teknis dan sehari-hari</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="tool-title">Kalkulator Ilmiah</h3>
+                    <p class="tool-desc">Kalkulator dengan fungsi-fungsi ilmiah untuk kebutuhan teknis (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3 class="tool-title">Kalkulator Keuangan</h3>
+                    <p class="tool-desc">Hitung bunga, cicilan, investasi dan kebutuhan keuangan lainnya (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Kalkulator Tanggal</h3>
+                    <p class="tool-desc">Hitung selisih hari antara dua tanggal atau tambah/kurangi hari (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Tools Tab -->
+        <div id="other-tools" class="tab-content">
+            <h2>Tools Lainnya</h2>
+            <p>Berbagai alat bantu lainnya yang mungkin Anda butuhkan</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 class="tool-title">Password Generator</h3>
+                    <p class="tool-desc">Buat password acak yang kuat dan aman (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3 class="tool-title">QR Code Generator</h3>
+                    <p class="tool-desc">Buat QR code dari teks atau URL (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-text-height"></i>
+                    </div>
+                    <h3 class="tool-title">Text Tools</h3>
+                    <p class="tool-desc">Berbagai alat manipulasi teks seperti case converter, counter, dll (coming soon).</p>
+                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 syahdanfrahira.github.io - Kumpulan Tools Keren All-in-One</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com/syahdanfrahira"><i class="fab fa-instagram"></i></a>
+            </div>
+        </footer>
+    </div>
+
+     <!-- Custom Context Menu -->
+    <div id="customContextMenu" class="custom-context-menu">
+        <div class="context-menu-item" onclick="window.location.reload()">
+        <i class="fas fa-sync-alt"></i> Refresh
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('https://www.instagram.com/syhdnfrahira')">
+        <i class="fab fa-instagram"></i> Instagram
+        </div>
+        <div class="context-menu-item" onclick="navigateTo('mailto:samediadigitaltechnology@gmail.com')">
+        <i class="fas fa-envelope"></i> Email Saya
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="copyPageUrl()">
+        <i class="fas fa-link"></i> Salin Link
+        </div>
+        <div class="context-menu-item" onclick="openInNewTab()">
+        <i class="fas fa-external-link-alt"></i> Buka Tab Baru
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="showAbout()">
+        <i class="fas fa-info-circle"></i> Tentang
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Navigation
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update active tab content
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Prompt Generator
+            const openPromptBtn = document.getElementById('openPromptBtn');
+            const closePromptBtn = document.getElementById('closePromptBtn');
+            const promptGenerator = document.getElementById('promptGenerator');
+            const promptForm = document.getElementById('promptForm');
+            const promptResultContainer = document.getElementById('promptResultContainer');
+            const generatedPrompt = document.getElementById('generatedPrompt');
+            const copyPromptBtn = document.getElementById('copyPromptBtn');
+            const toolsGrid = document.getElementById('ai-tools').querySelector('.tools-grid');
+            
+            openPromptBtn.addEventListener('click', () => {
+                toolsGrid.style.display = 'none';
+                promptGenerator.style.display = 'block';
+                promptGenerator.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            closePromptBtn.addEventListener('click', () => {
+                promptGenerator.style.display = 'none';
+                promptResultContainer.style.display = 'none';
+                toolsGrid.style.display = 'grid';
+                toolsGrid.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            promptForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Tampilkan loading
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Memproses...';
+                submitBtn.disabled = true;
+                
+                // Simulasikan proses async
+                setTimeout(() => {
+                    // Get form values
+                    const promptType = document.getElementById('promptType').value;
+                    const promptTone = document.getElementById('promptTone').value;
+                    const promptDetail = document.getElementById('promptDetail').value;
+                    const promptExample = document.getElementById('promptExample').value;
+                    
+                    // Generate prompt
+                    const prompt = generatePrompt(promptType, promptTone, promptDetail, promptExample);
+                    
+                    // Show result
+                    generatedPrompt.textContent = prompt;
+                    promptResultContainer.style.display = 'block';
+                    promptResultContainer.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Reset button
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 800);
+            });
+            
+            copyPromptBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(generatedPrompt.textContent).then(() => {
+                    copyPromptBtn.textContent = 'Tersalin!';
+                    setTimeout(() => {
+                        copyPromptBtn.textContent = 'Salin Prompt';
+                    }, 2000);
+                });
+            });
+            
+            function generatePrompt(type, tone, detail, example) {
+                let prompt = '';
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('id-ID', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                // Prompt header
+                prompt += `# Prompt AI Generator\n`;
+                prompt += `# Dibuat pada: ${dateStr}\n\n`;
+                
+                // Prompt type
+                prompt += `**Tujuan Prompt:** ${getTypeDescription(type)}\n\n`;
+                
+                // Tone
+                prompt += `**Nada & Gaya:** ${getToneDescription(tone)}\n\n`;
+                
+                // Main instructions
+                prompt += `**Instruksi Utama:**\n`;
+                prompt += `${detail}\n\n`;
+                
+                // Example if provided
+                if (example.trim() !== '') {
+                    prompt += `**Contoh Referensi:**\n`;
+                    prompt += `${example}\n\n`;
+                }
+                
+                // Expected output format
+                prompt += `**Format Output yang Diharapkan:**\n`;
+                prompt += `- Gunakan bahasa Indonesia yang baik dan sesuai konteks\n`;
+                prompt += `- Struktur jelas dengan paragraf yang terorganisir\n`;
+                prompt += `- Sertakan poin-poin penting jika diperlukan\n`;
+                prompt += `- Sesuaikan dengan nada ${tone.toLowerCase()} yang diminta\n\n`;
+                
+                // Additional notes
+                prompt += `**Catatan Tambahan:**\n`;
+                prompt += `- Berikan hasil yang kreatif dan orisinil\n`;
+                prompt += `- Jika berupa kode, sertakan penjelasan singkat\n`;
+                prompt += `- Untuk konten kreatif, pertahankan konsistensi tema\n`;
+                
+                return prompt;
+            }
+            
+            function getTypeDescription(type) {
+                const types = {
+                    'copywriting': 'Membuat teks iklan/pemasaran yang persuasif',
+                    'video': 'Membuat script video atau konten visual',
+                    'art': 'Membuat deskripsi untuk seni digital/illustrasi',
+                    'code': 'Membantu menulis atau menjelaskan kode program',
+                    'story': 'Membuat cerita atau konten kreatif naratif',
+                    'other': 'Kebutuhan prompt AI lainnya'
+                };
+                return types[type] || 'Prompt untuk berbagai keperluan';
+            }
+            
+            function getToneDescription(tone) {
+                const tones = {
+                    'profesional': 'Formal, terstruktur, dan berorientasi bisnis',
+                    'friendly': 'Ramah, santai, dan mudah dipahami',
+                    'fun': 'Menghibur, penuh energi, dan kreatif',
+                    'persuasif': 'Meyakinkan, dengan call-to-action yang jelas',
+                    'teknis': 'Detail teknis, fokus pada akurasi informasi'
+                };
+                return tones[tone] || 'Sesuai dengan konteks permintaan';
+            }
+        });
+
+        // Custom Context Menu
+  const customContextMenu = document.getElementById('customContextMenu');
+  
+  // Disable default context menu
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    showCustomMenu(e);
+  });
+  
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!customContextMenu.contains(e.target)) {
+      customContextMenu.classList.remove('visible');
+    }
+  });
+  
+  function showCustomMenu(e) {
+    // Position the menu
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    // Ensure menu stays within viewport
+    const menuWidth = customContextMenu.offsetWidth;
+    const menuHeight = customContextMenu.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    let adjustedX = x;
+    let adjustedY = y;
+    
+    if (x + menuWidth > windowWidth) {
+      adjustedX = windowWidth - menuWidth - 5;
+    }
+    
+    if (y + menuHeight > windowHeight) {
+      adjustedY = windowHeight - menuHeight - 5;
+    }
+    
+    customContextMenu.style.left = `${adjustedX}px`;
+    customContextMenu.style.top = `${adjustedY}px`;
+    customContextMenu.classList.add('visible');
+  }
+  
+  // Menu item functions
+  function navigateTo(url) {
+    window.location.href = url;
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function copyPageUrl() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Link disalin!',
+          text: 'URL halaman ini telah disalin ke clipboard',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal menyalin',
+          text: 'Tidak dapat menyalin URL: ' + err
+        });
+      });
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function openInNewTab() {
+    window.open(window.location.href, '_blank');
+    customContextMenu.classList.remove('visible');
+  }
+  
+  function showAbout() {
+    Swal.fire({
+      title: 'Tentang Halaman Ini',
+      html: '<b>Syahdan Frahira</b><br>Penulis & Web Developer<br><br>© 2025 All Rights Reserved',
+      confirmButtonText: 'Tutup'
+    });
+    customContextMenu.classList.remove('visible');
+  }
+    </script>
+</body>
+</html>

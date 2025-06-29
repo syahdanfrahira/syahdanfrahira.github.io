@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bab 1: Langit yang Sama | Langit Sekolah dan Rahasia Kita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-dark: #6d28d9;
+      --secondary: #a855f7;
+      --accent: #ec4899;
+      --bg-light: #f5f3ff;
+      --text-light: #1e1b4b;
+      --card-light: #ffffff;
+      --bg-dark: #0f172a;
+      --text-dark: #e2e8f0;
+      --card-dark: #1e293b;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --card: var(--card-dark);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="light"] {
+      --bg: var(--bg-light);
+      --text: var(--text-light);
+      --card: var(--card-light);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Merriweather', serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      transition: var(--transition);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+      background-size: cover;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 1.8rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .novel-container {
+      max-width: 750px;
+      margin: 0 auto 3rem;
+      padding: 2rem;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .chapter-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .chapter-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+      margin: 1.5rem 0;
+    }
+
+    p {
+      text-align: justify;
+      text-indent: 2em;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+
+    .journal-entry {
+      background: rgba(124, 58, 237, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Navigation */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .chapter-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(124, 58, 237, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      color: var(--text);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg) scale(1.1);
+    }
+
+    /* Reading Progress */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(124, 58, 237, 0.1);
+      z-index: 1000;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .novel-container {
+        padding: 1.5rem;
+      }
+
+      .chapter-nav {
+        flex-direction: column;
+      }
+
+      .chapter-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .novel-container {
+        padding: 1.25rem;
+        margin: 0 1rem 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .journal-entry {
+        padding: 1rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Reading Progress -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1>Langit Sekolah dan Rahasia Kita</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="novel-container">
+    <h1 class="chapter-title">Bab 1: Langit itu Masih Sama</h1>
+    <hr>
+
+    <p data-aos="fade-up" data-aos-delay="100">
+      Langit di atas sekolah ini selalu berwarna biru muda saat jam pulang tiba. Warna yang sama setiap hari, tapi rasanya berbeda sejak hari itu—sejak semuanya berubah diam-diam, tanpa peringatan.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="200">
+      Namaku Sinta Isabella Nur Cahyani.
+      Orang-orang bilang masa SMA adalah masa paling indah, tapi mereka lupa bilang bahwa masa ini juga bisa menjadi awal dari patah hati pertama yang tak akan pernah pulih sepenuhnya.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="300">
+      Hari ini seperti biasa. Lorong sekolah penuh dengan suara langkah kaki tergesa-gesa, suara tawa teman-teman yang belum lelah, dan denting bel yang seperti alarm pengingat bahwa waktu terus berjalan. Tapi bagiku, semuanya terasa pelan. Seolah dunia sedang berjalan lambat, memberi ruang untuk hati ini merasa... kosong.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="400">
+      Aku berjalan sendirian melewati lorong lantai dua. Di luar jendela, langit membentang luas, menenangkan. Aku suka langit—mungkin karena dia selalu ada, meski semuanya berubah.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="500">
+      Aku berhenti sejenak di depan kelas, lalu mengalihkan pandangan ke taman sekolah. Di bawah pohon flamboyan yang daunnya mulai gugur, seseorang duduk sendirian. Seorang laki-laki berseragam sama, dengan rambut agak berantakan dan buku terbuka di pangkuannya. Matanya tidak melihat halaman buku itu. Tapi juga tidak melihatku.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="600">
+      Kami bertatapan hanya sebentar, mungkin tak sampai tiga detik. Tapi ada sesuatu dalam tatapan itu—seperti pertanyaan yang tidak bisa dijawab, atau mungkin peringatan yang tak sempat dimengerti.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="700">
+      "Eh, Sinta!" <br> Aku menoleh. Lala berdiri di belakangku sambil mengunyah permen karet dan menenteng tas seperti biasa.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="800">
+      "Ngapain bengong? Yuk pulang, sebelum gerbang ditutup!" <br> Aku tersenyum kecil dan mengangguk. "Iya."
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="900">
+      Kami berjalan beriringan menuruni tangga, tapi pikiranku tertinggal di lantai dua—di langit yang terasa berat, dan di tatapan mata yang entah kenapa tak bisa kuabaikan.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="1000">
+      Malamnya, aku membuka jurnal kecilku. Buku yang sudah sejak SMP menjadi tempatku menyimpan hal-hal yang tak bisa kubagi dengan siapa pun.
+    </p>
+
+    <div class="journal-entry" data-aos="fade-up" data-aos-delay="1001">
+      Langit hari ini cerah. Tapi kenapa rasanya seperti sebelum hujan?<br><br>
+      Tadi, aku melihat seseorang. Dia asing. Tapi juga tidak. Seperti pernah ada di dalam mimpi, atau mungkin di masa lalu yang tak kuingat.<br><br>
+      Dan matanya... seolah tahu sesuatu yang bahkan aku sendiri belum tahu.
+    </div>      
+
+    <p data-aos="fade-up" data-aos-delay="1002">
+      Aku berhenti menulis. Menatap langit-langit kamar yang kosong.
+      Lalu, menutup jurnal itu perlahan, seolah kata-kata di dalamnya bisa meledak jika terlalu cepat ditutup.
+    </p>
+
+    <p data-aos="fade-up" data-aos-delay="1003">
+      Entah kenapa, aku tahu... ini bukan pertemuan biasa.
+    </p>
+
+    <div class="journal-entry" data-aos="fade-up" data-aos-delay="1004">
+      Mungkin hari ini hanya permulaan.
+      Tapi aku tahu, sesuatu sedang berjalan menuju akhir.
+    </div>
+
+    <hr>
+    <div class="chapter-nav">
+      <a href="https://syahdanfrahira.github.io/novel/langit-sekolah-dan-rahasia-kita/langit-sekolah.html" class="chapter-btn btn-outline">
+        <i class="fas fa-book"></i> Daftar Bab
+      </a>
+      <a href="/novel/langit-sekolah-dan-rahasia-kita/bab2.html" class="chapter-btn btn-primary">
+        Bab Selanjutnya <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Initialize AOS animations
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      
+      // Update icon
+      const icon = themeToggle.querySelector('i');
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Save preference
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+    // Auto dark mode based on time
+    const hour = new Date().getHours();
+    if (hour >= 18 || hour <= 5) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggle.querySelector('i').className = 'fas fa-sun';
+    }
+
+    // Reading Progress
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollProgress = (scrollTop / scrollHeight) * 100;
+      progressBar.style.width = scrollProgress + '%';
+    });
+
+    // Copy Protection
+    const showCopyWarning = () => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'warning',
+        title: 'Mohon hormati hak cipta penulis!',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+    };
+
+    // Anti Copy/Salin
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      let warned = false;
+      document.addEventListener('selectstart', function(e) {
+        if (!warned) {
+          e.preventDefault();
+          showCopyWarning();
+          warned = true;
+          setTimeout(() => {
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('selectstart', e => e.preventDefault());
+            document.addEventListener('contextmenu', e => e.preventDefault());
+          }, 2000);
+        } else {
+          e.preventDefault();
+        }
+      });
+    } else {
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showCopyWarning();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+          e.preventDefault();
+          showCopyWarning();
+        }
+      });
+
+      document.addEventListener('copy', function(e) {
+        e.preventDefault();
+        showCopyWarning();
+      });
+
+      document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+      });
+    }
+  </script>
+</body>
+</html>
