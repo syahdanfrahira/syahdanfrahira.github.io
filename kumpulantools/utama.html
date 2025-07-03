@@ -1,56 +1,110 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kumpulan Tools Keren - syahdanfrahira.github.io</title>
+    <meta name="description" content="Kumpulan tools AI, konverter, dan kalkulator untuk kebutuhan digital Anda">
+    <meta name="keywords" content="AI tools, konverter, kalkulator, prompt generator, syahdan frahira">
+    <meta name="author" content="Syahdan Frahira">
+    <title>Tools Collection - syahdanfrahira.github.io</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary: #6c5ce7;
             --primary-dark: #5649c0;
+            --primary-light: #a29bfe;
             --secondary: #00cec9;
+            --secondary-dark: #00a8a5;
             --accent: #fd79a8;
+            --accent-dark: #e84393;
             --dark: #2d3436;
+            --dark-light: #636e72;
             --light: #f5f6fa;
-            --gray: #636e72;
+            --light-dark: #dfe6e9;
+            --gray: #b2bec3;
             --success: #00b894;
+            --success-dark: #00997b;
             --warning: #fdcb6e;
+            --warning-dark: #e6b159;
             --danger: #d63031;
+            --danger-dark: #b02324;
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --bg: #f8f9fa;
+            --header-height: 80px;
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --primary: #7c6cf0;
+            --primary-dark: #6557d1;
+            --primary-light: #9a8ef5;
+            --secondary: #00d8d5;
+            --secondary-dark: #00b5b2;
+            --accent: #ff8fab;
+            --accent-dark: #f3689a;
+            --dark: #f5f6fa;
+            --dark-light: #dfe6e9;
+            --light: #2d3436;
+            --light-dark: #3a4146;
+            --gray: #636e72;
+            --success: #00d4b0;
+            --success-dark: #00b897;
+            --warning: #ffd166;
+            --warning-dark: #e6b859;
+            --danger: #ff6b6b;
+            --danger-dark: #e64c4c;
+            --card-bg: #2d3436;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --text: #f5f6fa;
+            --text-light: #b2bec3;
+            --bg: #1e272e;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f8f9fa;
-            color: var(--dark);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: var(--transition);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem;
             width: 100%;
         }
 
         /* Header */
         header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
-            padding: 1rem 0;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 0.5rem;
@@ -58,51 +112,87 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+            gap: 0.8rem;
         }
 
         .logo i {
-            margin-right: 0.5rem;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .logo:hover i {
+            transform: rotate(15deg);
         }
 
         .tagline {
-            font-size: 0.9rem;
-            color: var(--gray);
+            font-size: 1rem;
+            color: var(--text-light);
             margin-bottom: 1rem;
             padding: 0 0.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--card-bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            color: var(--text);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* Navigation */
         .nav-tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
-            gap: 0.3rem;
+            gap: 0.5rem;
             padding: 0 0.5rem;
         }
 
         .tab-btn {
-            padding: 0.6rem 1rem;
-            background: white;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
             border: none;
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            color: var(--gray);
-            font-size: 0.85rem;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+            color: var(--text-light);
+            font-size: 0.9rem;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .tab-btn.active {
             background: var(--primary);
             color: white;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
 
         .tab-btn:hover:not(.active) {
-            background: #e0e0e0;
+            background: var(--light-dark);
+            color: var(--text);
         }
 
         /* Tab Content */
@@ -115,61 +205,133 @@
             display: block;
         }
 
+        .tab-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .tab-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .tab-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
         /* Tool Cards */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 0 0.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .tool-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.2rem;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .tool-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+            transition: var(--transition);
         }
 
         .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .tool-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-card:hover::before {
+            height: 8px;
+            background: var(--accent);
         }
 
         .tool-icon {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: var(--primary);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1);
+            color: var(--accent);
         }
 
         .tool-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-weight: 600;
         }
 
         .tool-desc {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         .btn {
-            display: inline-block;
-            padding: 0.6rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
+            transition: var(--transition);
+            font-size: 0.9rem;
             width: 100%;
             text-align: center;
         }
@@ -177,6 +339,7 @@
         .btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
 
         .btn-outline {
@@ -190,34 +353,77 @@
             color: white;
         }
 
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+            box-shadow: 0 5px 15px rgba(0, 206, 201, 0.4);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        .btn-disabled, .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
         /* Prompt Generator */
         .prompt-generator {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .prompt-generator {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .prompt-generator h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .prompt-generator p {
+            color: var(--text-light);
             margin-bottom: 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
-            color: var(--dark);
-            font-size: 0.9rem;
+            color: var(--text);
+            font-size: 0.95rem;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 0.7rem 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--text);
         }
 
         input:focus, textarea:focus, select:focus {
@@ -227,133 +433,341 @@
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 150px;
             resize: vertical;
         }
 
         .btn-group {
             display: flex;
-            gap: 0.8rem;
-            margin-top: 1rem;
-            flex-direction: column;
-        }
-
-        /* Custom Context Menu */
-        .custom-context-menu {
-        display: none;
-        position: fixed;
-        width: 200px;
-        background: var(--card);
-        border-radius: var(--radius-sm);
-        box-shadow: var(--shadow-lg);
-        z-index: 1000;
-        overflow: hidden;
-        border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .custom-context-menu.visible {
-        display: block;
-        animation: fadeIn 0.15s ease-out;
-        }
-        
-        .context-menu-item {
-        padding: 10px 15px;
-        cursor: pointer;
-        transition: background 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 14px;
-        color: var(--text);
-        }
-        
-        .context-menu-item:hover {
-        background: rgba(0,0,0,0.05);
-        }
-        
-        .context-menu-item i {
-        width: 18px;
-        text-align: center;
-        color: var(--primary);
-        }
-        
-        .context-menu-divider {
-        height: 1px;
-        background: rgba(0,0,0,0.1);
-        margin: 3px 0;
-        }
-        
-        @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-5px); }
-        to { opacity: 1; transform: translateY(0); }
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         /* Result Container */
         .result-container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-top: 2rem;
             display: none;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .result-container {
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .result-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 1.2rem;
         }
 
         .result-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--primary);
+            font-weight: 600;
         }
 
         .prompt-result {
-            background: var(--light);
-            padding: 1rem;
-            border-radius: 6px;
+            background: var(--light-dark);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
             white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
             overflow-x: auto;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .feature-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            margin-top: 2rem;
-            padding: 1.5rem 0;
-            color: var(--gray);
-            font-size: 0.8rem;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .social-links a {
-            color: var(--gray);
-            font-size: 1rem;
-            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            color: var(--text-light);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
         }
 
         .social-links a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-links a:nth-child(1):hover {
+            background: #333; /* GitHub */
+        }
+
+        .social-links a:nth-child(2):hover {
+            background: #1DA1F2; /* Twitter */
+        }
+
+        .social-links a:nth-child(3):hover {
+            background: #E1306C; /* Instagram */
+        }
+
+        /* Custom Context Menu */
+        .custom-context-menu {
+            display: none;
+            position: fixed;
+            width: 220px;
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--card-shadow);
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        [data-theme="dark"] .custom-context-menu {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-context-menu.visible {
+            display: block;
+        }
+
+        .context-menu-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .context-menu-item:hover {
+            background: var(--light-dark);
+        }
+
+        .context-menu-item i {
+            width: 18px;
+            text-align: center;
             color: var(--primary);
         }
 
-        /* Responsif untuk mobile */
-        @media (max-width: 480px) {
+        .context-menu-divider {
+            height: 1px;
+            background: var(--gray);
+            margin: 5px 0;
+            opacity: 0.2;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: var(--radius-sm);
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+            z-index: 99;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .loading p {
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
             
             .logo i {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
             
             .tools-grid {
@@ -361,132 +775,147 @@
             }
             
             .prompt-generator, .result-container {
-                padding: 1.2rem;
-            }
-            
-            .result-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .container {
                 padding: 1.5rem;
             }
             
-            .logo {
-                font-size: 2rem;
+            .btn-group {
+                flex-direction: column;
             }
             
-            .tab-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                padding: 2.5rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
             }
             
             .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 1.5rem;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             }
             
-            .btn-group {
-                flex-direction: row;
+            .features {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
             }
-            
-            .btn {
-                width: auto;
-            }
-            
-            .result-header {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
-
-        /* Animasi */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        /* Loading */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 1rem;
-            color: var(--gray);
-        }
-
-        .loading i {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+
         <header>
             <div class="logo">
                 <i class="fas fa-tools"></i>
                 <span>SYAHDAN TOOLS</span>
             </div>
-            <p class="tagline">Kumpulan Tools Keren All-in-One untuk Berbagai Kebutuhan</p>
+            <p class="tagline">Kumpulan Tools All-in-One untuk Meningkatkan Produktivitas Anda</p>
         </header>
 
         <div class="nav-tabs">
-            <button class="tab-btn active" data-tab="ai-tools">AI Tools</button>
-            <button class="tab-btn" data-tab="converter">Konverter</button>
-            <button class="tab-btn" data-tab="calculators">Kalkulator</button>
-            <button class="tab-btn" data-tab="other-tools">Lainnya</button>
+            <button class="tab-btn active" data-tab="ai-tools">
+                <i class="fas fa-robot"></i>
+                AI Tools
+            </button>
+            <button class="tab-btn" data-tab="converter">
+                <i class="fas fa-exchange-alt"></i>
+                Konverter
+            </button>
+            <button class="tab-btn" data-tab="calculators">
+                <i class="fas fa-calculator"></i>
+                Kalkulator
+            </button>
+            <button class="tab-btn" data-tab="other-tools">
+                <i class="fas fa-toolbox"></i>
+                Lainnya
+            </button>
         </div>
 
         <!-- AI Tools Tab -->
         <div id="ai-tools" class="tab-content active">
-            <h2>AI Tools Keren</h2>
-            <p>Berbagai alat berbasis AI untuk membantu pekerjaan dan kreativitas Anda</p>
+            <h2 class="animate__animated animate__fadeIn">AI Tools</h2>
+            <p>Berbagai alat berbasis AI canggih untuk meningkatkan produktivitas dan kreativitas Anda</p>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card animate__animated animate__fadeInUp">
                     <div class="tool-icon">
                         <i class="fas fa-robot"></i>
                     </div>
                     <h3 class="tool-title">Prompt Generator</h3>
-                    <p class="tool-desc">Buat prompt AI berkualitas tinggi untuk berbagai kebutuhan seperti konten, gambar, dan kode program.</p>
-                    <button class="btn" id="openPromptBtn">Buka Tool</button>
+                    <p class="tool-desc">Buat prompt AI berkualitas tinggi untuk berbagai kebutuhan seperti konten, gambar, dan kode program dengan hasil optimal.</p>
+                    <button class="btn" id="openPromptBtn">
+                        <i class="fas fa-magic"></i> Buka Tool
+                    </button>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <span class="badge">New</span>
                     <div class="tool-icon">
                         <i class="fas fa-image"></i>
                     </div>
                     <h3 class="tool-title">AI Image Generator</h3>
-                    <p class="tool-desc">Buat gambar dari teks dengan teknologi AI.</p>
-                    <a href="aiimggenerator.html" class="btn">Buka Tool</a>
+                    <p class="tool-desc">Buat gambar dari teks dengan teknologi AI generasi terbaru (coming soon).</p>
+                    <a href="aiimggenerator.html" class="btn btn-secondary">
+                        <i class="fas fa-external-link-alt"></i> Buka Tool
+                    </a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card animate__animated animate__fadeInUp animate__delay-2s">
                     <div class="tool-icon">
                         <i class="fas fa-code"></i>
                     </div>
                     <h3 class="tool-title">AI Code Assistant</h3>
-                    <p class="tool-desc">Bantu generate dan jelaskan kode program (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Bantu generate, debug, dan optimalkan kode program dalam berbagai bahasa.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Features Section -->
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Cepat & Efisien</h3>
+                    <p class="feature-desc">Tools kami dioptimalkan untuk memberikan hasil instan tanpa mengurangi kualitas output.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Privasi Terjaga</h3>
+                    <p class="feature-desc">Semua proses dilakukan di browser Anda tanpa mengirim data ke server eksternal.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Update Rutin</h3>
+                    <p class="feature-desc">Kami terus menambahkan fitur dan meningkatkan kualitas tools secara berkala.</p>
                 </div>
             </div>
             
             <!-- Prompt Generator Form (hidden by default) -->
             <div id="promptGenerator" class="prompt-generator" style="display: none;">
                 <h3>Prompt Generator</h3>
-                <p>Buat prompt AI yang efektif untuk berbagai kebutuhan</p>
+                <p>Buat prompt AI yang efektif dan terstruktur untuk berbagai kebutuhan</p>
                 
                 <form id="promptForm">
                     <div class="form-group">
@@ -511,6 +940,8 @@
                             <option value="fun">Menyenangkan</option>
                             <option value="persuasif">Persuasif</option>
                             <option value="teknis">Teknis</option>
+                            <option value="formal">Formal</option>
+                            <option value="casual">Kasual</option>
                         </select>
                     </div>
 
@@ -524,18 +955,43 @@
                         <textarea id="promptExample" placeholder="Masukkan contoh prompt atau hasil yang Anda inginkan (jika ada)"></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label for="promptComplexity">Tingkat Kompleksitas</label>
+                        <select id="promptComplexity">
+                            <option value="medium">Sedang</option>
+                            <option value="simple">Sederhana</option>
+                            <option value="detailed">Detail</option>
+                            <option value="expert">Expert/Advanced</option>
+                        </select>
+                    </div>
+
                     <div class="btn-group">
-                        <button type="submit" class="btn">Buat Prompt AI</button>
-                        <button type="button" class="btn btn-outline" id="closePromptBtn">Kembali</button>
+                        <button type="submit" class="btn btn-accent">
+                            <i class="fas fa-magic"></i> Buat Prompt AI
+                        </button>
+                        <button type="button" class="btn btn-outline" id="closePromptBtn">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
                     </div>
                 </form>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Membuat prompt khusus untuk Anda...</p>
             </div>
             
             <!-- Prompt Result -->
             <div id="promptResultContainer" class="result-container">
                 <div class="result-header">
                     <h3 class="result-title">Prompt AI Anda</h3>
-                    <button id="copyPromptBtn" class="btn">Salin Prompt</button>
+                    <div class="tooltip">
+                        <button id="copyPromptBtn" class="btn">
+                            <i class="fas fa-copy"></i> Salin Prompt
+                        </button>
+                        <span class="tooltiptext">Salin ke clipboard</span>
+                    </div>
                 </div>
                 <div class="prompt-result" id="generatedPrompt"></div>
             </div>
@@ -544,7 +1000,7 @@
         <!-- Converter Tab -->
         <div id="converter" class="tab-content">
             <h2>Konverter</h2>
-            <p>Berbagai alat konversi untuk kebutuhan sehari-hari</p>
+            <p>Alat konversi canggih untuk berbagai kebutuhan digital Anda</p>
             
             <div class="tools-grid">
                 <div class="tool-card">
@@ -552,26 +1008,32 @@
                         <i class="fas fa-exchange-alt"></i>
                     </div>
                     <h3 class="tool-title">Konverter Mata Uang</h3>
-                    <p class="tool-desc">Konversi nilai mata uang dari berbagai negara secara real-time.</p>
-                    <a href="mata-uang.html" class="btn">Buka Tool</a>
+                    <p class="tool-desc">Konversi nilai mata uang dari berbagai negara secara real-time dengan update harga otomatis.</p>
+                    <a href="mata-uang.html" class="btn">
+                        <i class="fas fa-external-link-alt"></i> Buka Tool
+                    </a>
                 </div>
                 
                 <div class="tool-card">
                     <div class="tool-icon">
-                        <i class="fas fa-ruler"></i>
+                        <i class="fas fa-ruler-combined"></i>
                     </div>
                     <h3 class="tool-title">Konverter Satuan</h3>
-                    <p class="tool-desc">Konversi berbagai satuan panjang, berat, volume, dan lainnya (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Konversi berbagai satuan panjang, berat, volume, suhu dan lainnya dengan presisi tinggi.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
                 
                 <div class="tool-card">
                     <div class="tool-icon">
-                        <i class="fas fa-file-code"></i>
+                        <i class="fas fa-palette"></i>
                     </div>
                     <h3 class="tool-title">Konverter Kode Warna</h3>
-                    <p class="tool-desc">Konversi antara HEX, RGB, HSL dan format warna lainnya (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Konversi antara HEX, RGB, HSL, CMYK dan format warna lainnya dengan preview langsung.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
             </div>
         </div>
@@ -579,7 +1041,7 @@
         <!-- Calculators Tab -->
         <div id="calculators" class="tab-content">
             <h2>Kalkulator</h2>
-            <p>Berbagai kalkulator untuk kebutuhan teknis dan sehari-hari</p>
+            <p>Alat hitung canggih untuk kebutuhan teknis, keuangan, dan sehari-hari</p>
             
             <div class="tools-grid">
                 <div class="tool-card">
@@ -587,17 +1049,21 @@
                         <i class="fas fa-calculator"></i>
                     </div>
                     <h3 class="tool-title">Kalkulator Ilmiah</h3>
-                    <p class="tool-desc">Kalkulator dengan fungsi-fungsi ilmiah untuk kebutuhan teknis (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Kalkulator dengan fungsi-fungsi ilmiah lengkap untuk kebutuhan teknis dan akademik.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
                 
                 <div class="tool-card">
                     <div class="tool-icon">
-                        <i class="fas fa-percentage"></i>
+                        <i class="fas fa-coins"></i>
                     </div>
                     <h3 class="tool-title">Kalkulator Keuangan</h3>
-                    <p class="tool-desc">Hitung bunga, cicilan, investasi dan kebutuhan keuangan lainnya (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Hitung bunga, cicilan, investasi, ROI dan kebutuhan keuangan profesional lainnya.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
                 
                 <div class="tool-card">
@@ -605,8 +1071,10 @@
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <h3 class="tool-title">Kalkulator Tanggal</h3>
-                    <p class="tool-desc">Hitung selisih hari antara dua tanggal atau tambah/kurangi hari (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Hitung selisih hari antara dua tanggal atau tambah/kurangi hari dengan kalender interaktif.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
             </div>
         </div>
@@ -614,7 +1082,7 @@
         <!-- Other Tools Tab -->
         <div id="other-tools" class="tab-content">
             <h2>Tools Lainnya</h2>
-            <p>Berbagai alat bantu lainnya yang mungkin Anda butuhkan</p>
+            <p>Berbagai alat bantu profesional yang mungkin Anda butuhkan</p>
             
             <div class="tools-grid">
                 <div class="tool-card">
@@ -622,8 +1090,10 @@
                         <i class="fas fa-key"></i>
                     </div>
                     <h3 class="tool-title">Password Generator</h3>
-                    <p class="tool-desc">Buat password acak yang kuat dan aman (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Buat password acak yang kuat dan aman dengan berbagai kriteria kompleksitas.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
                 
                 <div class="tool-card">
@@ -631,57 +1101,105 @@
                         <i class="fas fa-qrcode"></i>
                     </div>
                     <h3 class="tool-title">QR Code Generator</h3>
-                    <p class="tool-desc">Buat QR code dari teks atau URL (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <p class="tool-desc">Buat QR code dari teks atau URL dengan berbagai opsi kustomisasi.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
                 
                 <div class="tool-card">
                     <div class="tool-icon">
                         <i class="fas fa-text-height"></i>
                     </div>
-                    <h3 class="tool-title">Text Tools</h3>
-                    <p class="tool-desc">Berbagai alat manipulasi teks seperti case converter, counter, dll (coming soon).</p>
-                    <button class="btn btn-outline" disabled>Segera Hadir</button>
+                    <h3 class="tool-title">Text Tools Pro</h3>
+                    <p class="tool-desc">Berbagai alat manipulasi teks seperti case converter, counter, formatter, dan lainnya.</p>
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-clock"></i> Segera Hadir
+                    </button>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>© 2025 syahdanfrahira.github.io - Kumpulan Tools Keren All-in-One</p>
+            <div class="footer-links">
+                <a href="#">Beranda</a>
+                <a href="#">Tentang</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Syarat Penggunaan</a>
+                <a href="#">Kontak</a>
+            </div>
+            <p>© 2025 syahdanfrahira.github.io - Kumpulan Tools All-in-One</p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="https://instagram.com/syahdanfrahira"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com/syahdanfrahira" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </footer>
     </div>
 
-     <!-- Custom Context Menu -->
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Custom Context Menu -->
     <div id="customContextMenu" class="custom-context-menu">
         <div class="context-menu-item" onclick="window.location.reload()">
-        <i class="fas fa-sync-alt"></i> Refresh
+            <i class="fas fa-sync-alt"></i> Refresh
         </div>
         <div class="context-menu-item" onclick="navigateTo('https://www.instagram.com/syhdnfrahira')">
-        <i class="fab fa-instagram"></i> Instagram
+            <i class="fab fa-instagram"></i> Instagram
         </div>
         <div class="context-menu-item" onclick="navigateTo('mailto:samediadigitaltechnology@gmail.com')">
-        <i class="fas fa-envelope"></i> Email Saya
+            <i class="fas fa-envelope"></i> Email Saya
         </div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" onclick="copyPageUrl()">
-        <i class="fas fa-link"></i> Salin Link
+            <i class="fas fa-link"></i> Salin Link
         </div>
         <div class="context-menu-item" onclick="openInNewTab()">
-        <i class="fas fa-external-link-alt"></i> Buka Tab Baru
+            <i class="fas fa-external-link-alt"></i> Buka Tab Baru
         </div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" onclick="showAbout()">
-        <i class="fas fa-info-circle"></i> Tentang
+            <i class="fas fa-info-circle"></i> Tentang
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme') || 
+                              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            html.setAttribute('data-theme', savedTheme);
+            
+            // Update toggle icon based on current theme
+            updateThemeIcon(savedTheme);
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                
+                // Animate the toggle
+                themeToggle.classList.add('pulse');
+                setTimeout(() => {
+                    themeToggle.classList.remove('pulse');
+                }, 1000);
+            });
+            
+            function updateThemeIcon(theme) {
+                themeToggle.innerHTML = theme === 'dark' ? 
+                    '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            }
+            
             // Tab Navigation
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -697,6 +1215,9 @@
                     // Update active tab content
                     tabContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(tabId).classList.add('active');
+                    
+                    // Scroll to top of tab content
+                    document.getElementById(tabId).scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
             
@@ -709,79 +1230,108 @@
             const generatedPrompt = document.getElementById('generatedPrompt');
             const copyPromptBtn = document.getElementById('copyPromptBtn');
             const toolsGrid = document.getElementById('ai-tools').querySelector('.tools-grid');
+            const loadingState = document.getElementById('loadingState');
             
             openPromptBtn.addEventListener('click', () => {
                 toolsGrid.style.display = 'none';
                 promptGenerator.style.display = 'block';
-                promptGenerator.scrollIntoView({ behavior: 'smooth' });
+                promptResultContainer.style.display = 'none';
+                promptGenerator.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
             
             closePromptBtn.addEventListener('click', () => {
                 promptGenerator.style.display = 'none';
                 promptResultContainer.style.display = 'none';
                 toolsGrid.style.display = 'grid';
-                toolsGrid.scrollIntoView({ behavior: 'smooth' });
+                toolsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
             
             promptForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Tampilkan loading
-                const submitBtn = e.target.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Memproses...';
-                submitBtn.disabled = true;
+                // Show loading state
+                loadingState.style.display = 'block';
+                promptResultContainer.style.display = 'none';
+                loadingState.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                // Simulasikan proses async
+                // Get form values
+                const promptType = document.getElementById('promptType').value;
+                const promptTone = document.getElementById('promptTone').value;
+                const promptDetail = document.getElementById('promptDetail').value;
+                const promptExample = document.getElementById('promptExample').value;
+                const promptComplexity = document.getElementById('promptComplexity').value;
+                
+                // Simulate API call delay
                 setTimeout(() => {
-                    // Get form values
-                    const promptType = document.getElementById('promptType').value;
-                    const promptTone = document.getElementById('promptTone').value;
-                    const promptDetail = document.getElementById('promptDetail').value;
-                    const promptExample = document.getElementById('promptExample').value;
-                    
                     // Generate prompt
-                    const prompt = generatePrompt(promptType, promptTone, promptDetail, promptExample);
+                    const prompt = generatePremiumPrompt(promptType, promptTone, promptDetail, promptExample, promptComplexity);
                     
                     // Show result
                     generatedPrompt.textContent = prompt;
+                    loadingState.style.display = 'none';
                     promptResultContainer.style.display = 'block';
-                    promptResultContainer.scrollIntoView({ behavior: 'smooth' });
+                    promptResultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     
-                    // Reset button
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }, 800);
+                    // Reset form
+                    this.reset();
+                }, 1500);
             });
             
             copyPromptBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(generatedPrompt.textContent).then(() => {
-                    copyPromptBtn.textContent = 'Tersalin!';
+                    // Show success feedback
+                    const originalText = copyPromptBtn.innerHTML;
+                    copyPromptBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                    
                     setTimeout(() => {
-                        copyPromptBtn.textContent = 'Salin Prompt';
+                        copyPromptBtn.innerHTML = originalText;
                     }, 2000);
+                    
+                    // Show sweet alert
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Prompt disalin!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text)'
+                    });
+                }).catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal menyalin',
+                        text: 'Tidak dapat menyalin teks: ' + err
+                    });
                 });
             });
             
-            function generatePrompt(type, tone, detail, example) {
+            function generatePremiumPrompt(type, tone, detail, example, complexity) {
                 let prompt = '';
                 const now = new Date();
                 const dateStr = now.toLocaleDateString('id-ID', { 
                     weekday: 'long', 
                     year: 'numeric', 
                     month: 'long', 
-                    day: 'numeric' 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
                 
                 // Prompt header
-                prompt += `# Prompt AI Generator\n`;
-                prompt += `# Dibuat pada: ${dateStr}\n\n`;
+                prompt += `# PREMIUM PROMPT GENERATOR\n`;
+                prompt += `# Dibuat pada: ${dateStr}\n`;
+                prompt += `# Kompleksitas: ${getComplexityLabel(complexity)}\n\n`;
                 
                 // Prompt type
                 prompt += `**Tujuan Prompt:** ${getTypeDescription(type)}\n\n`;
                 
                 // Tone
                 prompt += `**Nada & Gaya:** ${getToneDescription(tone)}\n\n`;
+                
+                // Complexity instructions
+                prompt += `**Tingkat Detail:** ${getComplexityInstructions(complexity)}\n\n`;
                 
                 // Main instructions
                 prompt += `**Instruksi Utama:**\n`;
@@ -798,124 +1348,187 @@
                 prompt += `- Gunakan bahasa Indonesia yang baik dan sesuai konteks\n`;
                 prompt += `- Struktur jelas dengan paragraf yang terorganisir\n`;
                 prompt += `- Sertakan poin-poin penting jika diperlukan\n`;
-                prompt += `- Sesuaikan dengan nada ${tone.toLowerCase()} yang diminta\n\n`;
+                prompt += `- Sesuaikan dengan nada ${tone.toLowerCase()} yang diminta\n`;
+                prompt += `- ${getComplexityOutput(complexity)}\n\n`;
                 
                 // Additional notes
                 prompt += `**Catatan Tambahan:**\n`;
                 prompt += `- Berikan hasil yang kreatif dan orisinil\n`;
                 prompt += `- Jika berupa kode, sertakan penjelasan singkat\n`;
                 prompt += `- Untuk konten kreatif, pertahankan konsistensi tema\n`;
+                prompt += `- Fokus pada kualitas dan kedalaman konten\n`;
                 
                 return prompt;
             }
             
             function getTypeDescription(type) {
                 const types = {
-                    'copywriting': 'Membuat teks iklan/pemasaran yang persuasif',
-                    'video': 'Membuat script video atau konten visual',
-                    'art': 'Membuat deskripsi untuk seni digital/illustrasi',
-                    'code': 'Membantu menulis atau menjelaskan kode program',
-                    'story': 'Membuat cerita atau konten kreatif naratif',
-                    'other': 'Kebutuhan prompt AI lainnya'
+                    'copywriting': 'Membuat teks iklan/pemasaran yang persuasif dan efektif',
+                    'video': 'Membuat script video atau konten visual yang engaging',
+                    'art': 'Membuat deskripsi untuk seni digital/illustrasi yang detail',
+                    'code': 'Membantu menulis, debug, atau menjelaskan kode program',
+                    'story': 'Membuat cerita atau konten kreatif naratif yang menarik',
+                    'other': 'Kebutuhan prompt AI khusus lainnya'
                 };
-                return types[type] || 'Prompt untuk berbagai keperluan';
+                return types[type] || 'Prompt untuk berbagai keperluan profesional';
             }
             
             function getToneDescription(tone) {
                 const tones = {
-                    'profesional': 'Formal, terstruktur, dan berorientasi bisnis',
-                    'friendly': 'Ramah, santai, dan mudah dipahami',
-                    'fun': 'Menghibur, penuh energi, dan kreatif',
-                    'persuasif': 'Meyakinkan, dengan call-to-action yang jelas',
-                    'teknis': 'Detail teknis, fokus pada akurasi informasi'
+                    'profesional': 'Formal, terstruktur, dan berorientasi bisnis dengan bahasa resmi',
+                    'friendly': 'Ramah, santai, dan mudah dipahami dengan sentuhan personal',
+                    'fun': 'Menghibur, penuh energi, kreatif dengan gaya yang menyenangkan',
+                    'persuasif': 'Meyakinkan, dengan call-to-action yang jelas dan argumentasi kuat',
+                    'teknis': 'Detail teknis, fokus pada akurasi informasi dan spesifikasi',
+                    'formal': 'Struktural, resmi, dengan tata bahasa sempurna',
+                    'casual': 'Santai, sehari-hari, dengan bahasa yang natural'
                 };
-                return tones[tone] || 'Sesuai dengan konteks permintaan';
+                return tones[tone] || 'Sesuai dengan konteks permintaan dan target audience';
             }
+            
+            function getComplexityLabel(complexity) {
+                const labels = {
+                    'simple': 'Sederhana',
+                    'medium': 'Menengah',
+                    'detailed': 'Detail',
+                    'expert': 'Expert/Advanced'
+                };
+                return labels[complexity] || 'Menengah';
+            }
+            
+            function getComplexityInstructions(complexity) {
+                const instructions = {
+                    'simple': 'Instruksi sederhana dengan poin-poin dasar',
+                    'medium': 'Instruksi lengkap dengan beberapa spesifikasi',
+                    'detailed': 'Instruksi sangat detail dengan banyak parameter',
+                    'expert': 'Instruksi kompleks dengan spesifikasi teknis mendalam'
+                };
+                return instructions[complexity] || 'Instruksi lengkap dengan beberapa spesifikasi';
+            }
+            
+            function getComplexityOutput(complexity) {
+                const outputs = {
+                    'simple': 'Output sederhana dan langsung ke inti',
+                    'medium': 'Output lengkap dengan penjelasan memadai',
+                    'detailed': 'Output sangat detail dengan analisis mendalam',
+                    'expert': 'Output tingkat expert dengan pembahasan komprehensif'
+                };
+                return outputs[complexity] || 'Output lengkap dengan penjelasan memadai';
+            }
+            
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
 
         // Custom Context Menu
-  const customContextMenu = document.getElementById('customContextMenu');
-  
-  // Disable default context menu
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    showCustomMenu(e);
-  });
-  
-  // Close menu when clicking elsewhere
-  document.addEventListener('click', (e) => {
-    if (!customContextMenu.contains(e.target)) {
-      customContextMenu.classList.remove('visible');
-    }
-  });
-  
-  function showCustomMenu(e) {
-    // Position the menu
-    const x = e.clientX;
-    const y = e.clientY;
-    
-    // Ensure menu stays within viewport
-    const menuWidth = customContextMenu.offsetWidth;
-    const menuHeight = customContextMenu.offsetHeight;
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    let adjustedX = x;
-    let adjustedY = y;
-    
-    if (x + menuWidth > windowWidth) {
-      adjustedX = windowWidth - menuWidth - 5;
-    }
-    
-    if (y + menuHeight > windowHeight) {
-      adjustedY = windowHeight - menuHeight - 5;
-    }
-    
-    customContextMenu.style.left = `${adjustedX}px`;
-    customContextMenu.style.top = `${adjustedY}px`;
-    customContextMenu.classList.add('visible');
-  }
-  
-  // Menu item functions
-  function navigateTo(url) {
-    window.location.href = url;
-    customContextMenu.classList.remove('visible');
-  }
-  
-  function copyPageUrl() {
-    navigator.clipboard.writeText(window.location.href)
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Link disalin!',
-          text: 'URL halaman ini telah disalin ke clipboard',
-          timer: 1500,
-          showConfirmButton: false
+        const customContextMenu = document.getElementById('customContextMenu');
+        
+        // Disable default context menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showCustomMenu(e);
         });
-      })
-      .catch(err => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Gagal menyalin',
-          text: 'Tidak dapat menyalin URL: ' + err
+        
+        // Close menu when clicking elsewhere
+        document.addEventListener('click', (e) => {
+            if (!customContextMenu.contains(e.target)) {
+                customContextMenu.classList.remove('visible');
+            }
         });
-      });
-    customContextMenu.classList.remove('visible');
-  }
-  
-  function openInNewTab() {
-    window.open(window.location.href, '_blank');
-    customContextMenu.classList.remove('visible');
-  }
-  
-  function showAbout() {
-    Swal.fire({
-      title: 'Tentang Halaman Ini',
-      html: '<b>Syahdan Frahira</b><br>Penulis & Web Developer<br><br>© 2025 All Rights Reserved',
-      confirmButtonText: 'Tutup'
-    });
-    customContextMenu.classList.remove('visible');
-  }
+        
+        function showCustomMenu(e) {
+            // Position the menu
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Ensure menu stays within viewport
+            const menuWidth = customContextMenu.offsetWidth;
+            const menuHeight = customContextMenu.offsetHeight;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            let adjustedX = x;
+            let adjustedY = y;
+            
+            if (x + menuWidth > windowWidth) {
+                adjustedX = windowWidth - menuWidth - 5;
+            }
+            
+            if (y + menuHeight > windowHeight) {
+                adjustedY = windowHeight - menuHeight - 5;
+            }
+            
+            customContextMenu.style.left = `${adjustedX}px`;
+            customContextMenu.style.top = `${adjustedY}px`;
+            customContextMenu.classList.add('visible');
+        }
+        
+        // Menu item functions
+        function navigateTo(url) {
+            window.location.href = url;
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function copyPageUrl() {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Link disalin!',
+                        text: 'URL halaman ini telah disalin ke clipboard',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text)'
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal menyalin',
+                        text: 'Tidak dapat menyalin URL: ' + err,
+                        background: 'var(--card-bg)',
+                        color: 'var(--text)'
+                    });
+                });
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function openInNewTab() {
+            window.open(window.location.href, '_blank');
+            customContextMenu.classList.remove('visible');
+        }
+        
+        function showAbout() {
+            Swal.fire({
+                title: 'Tentang Halaman Ini',
+                html: `<div style="text-align:center;">
+                    <img src="https://via.placeholder.com/100" alt="Logo" style="border-radius:50%;margin-bottom:1rem;">
+                    <h3 style="color:var(--primary);margin-bottom:0.5rem;">Syahdan Frahira</h3>
+                    <p style="color:var(--text-light);margin-bottom:1rem;">Penulis & Web Developer</p>
+                    <p style="font-size:0.9rem;">© 2025 All Rights Reserved</p>
+                </div>`,
+                confirmButtonText: 'Tutup',
+                background: 'var(--card-bg)',
+                color: 'var(--text)'
+            });
+            customContextMenu.classList.remove('visible');
+        }
     </script>
 </body>
 </html>
