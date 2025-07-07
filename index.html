@@ -693,13 +693,16 @@
         <i class="fas fa-user-graduate"></i> Joki Tugas <span class="badge">Terpopuler</span>
       </a>
       <a href="toko-online/toko.html" class="link-button">
-        <i class="fas fa-store"></i> Syahdan STORE <span class="badge">New</span>
+        <i class="fas fa-store"></i> Syahdan STORE 
       </a>
       <a href="game/list-game.html" class="link-button">
-        <i class="fas fa-gamepad"></i> Mini Games <span class="badge">New</span>
+        <i class="fas fa-gamepad"></i> Mini Games 
       </a>
       <a href="kumpulantools/utama.html" class="link-button">
-        <i class="fas fa-coins"></i> Kumpulan Tools Keren <span class="badge">New</span>
+        <i class="fas fa-coins"></i> Kumpulan Tools Keren 
+      </a>
+      <a href="kumpulantools/utama.html" class="link-button" onclick="showHOSTlert(event)">
+        <i class="fas fa-coins"></i> Beli Hosting & Domain <span class="badge">Maintenance</span>
       </a>
       <a href="kesan-pesan.html" class="link-button">
       <i class="fas fa-comment-dots"></i> Kesan & Pesan
@@ -906,12 +909,12 @@
     }
 
     // TP Alert
-    function showTPAlert(event) {
+    function showHOSTlert(event) {
       event.preventDefault();
       Swal.fire({
         icon: 'info',
         title: '🚀 Fitur Segera Hadir',
-        html: 'Layanan <b>Top Up & Digital</b> sedang dalam tahap pengembangan akhir. Nantikan kehadirannya dalam waktu dekat!',
+        html: 'Layanan <b>Hosting & Domain</b> sedang dalam tahap pengembangan akhir. Nantikan kehadirannya dalam waktu dekat!',
         confirmButtonText: 'Tunggu ya!',
         confirmButtonColor: 'var(--primary)'
       });
